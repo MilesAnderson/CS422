@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// import Authentication from './pages/authentication';
-// import About from './pages/about';
+import Authentication from './pages/authentication';
+import About from './pages/about';
+import Watchlist from './pages/watchlist';
 // import Profile from './pages/profile'
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -16,9 +17,10 @@ root.render(
       <Routes>
         <Route>
           <Route index path="/" element={<App />} />
-          {/* <Route path="authentication" element={<Authentication />} />
+          <Route path="authentication" element={<Authentication />} />
           <Route path="about" element={<About />} />
-          <Route path="profile" element={<Profile />} /> */}
+          <Route path="watchlist" element={<Watchlist />} />
+          {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

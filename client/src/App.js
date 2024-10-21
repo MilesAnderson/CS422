@@ -3,6 +3,9 @@ import axios from 'axios';
 
 import './css/App.css';
 import './css/NavBar.css';
+import './css/Auth.css';
+import './css/About.css';
+import './css/SearchBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './components/NavBar'
@@ -42,7 +45,7 @@ function App() {
           type="text"
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Search for a book..."
+          placeholder="Search for a stock..."
         />
         <img src={ SearchIcon } alt="Search Icon" className="SearchIcon"/>
       </div>
