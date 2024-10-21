@@ -1,36 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './App.css';
+
+import './css/App.css';
+import './css/NavBar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import NavBar from './components/NavBar'
+import SearchIcon from './img/SearchIcon.png';
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
-  const [message, setMessage] = useState('');
+  const [stocks, setStocks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("Test");
 
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
+  const handleSearch = (query) => {
+    setStocks([]);
+    setSearchQuery(query);
   };
 
   useEffect(() => {
-    // Make an API call to the backend when the component mounts
-    axios.get('http://localhost:5000/api/message')
-      .then(response => {
-        setMessage(response.data.message);
-      })
-      .catch(error => {
-        console.error('There was an error fetching the message:', error);
-      });
-  }, []); // Empty dependency array ensures this runs only once
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/test?q=${searchQuery}`);
+        setStocks(response.data || []);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching the API:", error);
+      }
+    };
+    fetchBooks();
+  }, [searchQuery]);
 
   return (
     <div className="App">
-      <input
-        type="text"
-        placeholder="Type something..."
-        value={inputValue}
-        onChange={handleChange}
-      />
-      <h1>{inputValue}</h1>
-      <p>{message}</p> {/* Display the fetched message here */}
+      <NavBar />
+      <header className="App-header">
+        <h1 className="Title">Search up a stock!</h1>
+      </header>
+      <div className="SearchBarContainer">
+          <input
+          className="SearchBar"
+          type="text"
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search for a book..."
+        />
+        <img src={ SearchIcon } alt="Search Icon" className="SearchIcon"/>
+      </div>
     </div>
   );
 }
