@@ -5,6 +5,8 @@ require('dotenv').config(); // Loads env vars allowing access to process.env.POR
 const app = express(); // Express application created
 const port = process.env.PORT || 5000; 
 
+const apiKey = process.env.API_KEY;
+
 // Middleware
 app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from the React frontend
 app.use(express.json()); // Parse JSON bodies
@@ -23,7 +25,7 @@ app.get('/api/get-stock-data/:ticker', (req, res) => {
     }
 
     // Build the complete URL for each request
-    const fullUrl = `${baseUrl}${ticker}&interval=60min&apikey=5OTOQPZ8DWTIWAYC`;
+    const fullUrl = `${baseUrl}${ticker}&interval=60min&apikey=${apiKey}`;
 
     axios.get(fullUrl, { headers: { 'User-Agent': 'axios' } })
         .then(response => {
