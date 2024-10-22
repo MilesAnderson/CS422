@@ -1,66 +1,49 @@
-const express = require('express'); // Express is used to create a backend server
-const cors = require('cors'); // Middleware to allow server to accept requests from other domains (localhost:3000)
-require('dotenv').config(); // Loads env vars allowing access to process.env.PORT
+import express from 'express';
+import path from 'path';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import cors from 'cors';
+
+import stocksApi from "./routes/stocksApi.js";
+import test from "./routes/test.js";
 
 const app = express(); // Express application created
 const port = process.env.PORT || 5000; 
-
-const apiKey = process.env.API_KEY;
 
 // Middleware
 app.use(cors({ origin: 'http://localhost:3000' })); // Allow requests from the React frontend
 app.use(express.json()); // Parse JSON bodies
 
-'use strict';
-const axios = require('axios');
+app.set('views', path.join(path.resolve(), 'views'));
+app.set('view engine', 'jade');
 
+app.use(cors());
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(path.resolve(), 'public')));
 
-// retreiving stock data
-// Base URL for Alpha Vantage API
-const baseUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
-app.get('/api/get-stock-data/:ticker', (req, res) => {
-    const { ticker } = req.params;
+app.use('/test', test);
+app.use('/api/stocks', stocksApi);
 
-    if (!ticker) {
-        return res.status(400).send({ message: "We need a stock ticker" });
-    }
-
-    // Build the complete URL for each request
-    const fullUrl = `${baseUrl}${ticker}&interval=60min&apikey=${apiKey}`;
-
-    axios.get(fullUrl, { headers: { 'User-Agent': 'axios' } })
-        .then(response => {
-            // Check if the response contains the expected time series data
-            if (response.data['Time Series (60min)']) {
-                const timeSeries = response.data['Time Series (60min)'];
-                const timestamps = Object.keys(timeSeries);
-                const lastTimestamp = timestamps[timestamps.length - 1];
-                const price = timeSeries[lastTimestamp]['4. close']; // Extract the closing price
-
-                console.log(`Price at ${lastTimestamp}: ${price}`); // Log the price
-
-                res.send({
-                    data: {
-                        timestamp: lastTimestamp,
-                        price: price
-                    }
-                });
-            } else {
-                // Handle error if time series data is not available
-                res.status(500).send({ error: "Failed to retrieve stock data." });
-            }
-        })
-        .catch(error => {
-            if (error.response) {
-                console.log('Status:', error.response.status);  // Server responded with a status code outside of the 2xx range
-            } else if (error.request) {
-                console.log('Error:', error.request);  // Request was made but no response received
-            } else {
-                console.log('Error:', error.message);  // Other errors, like setting up the request
-            }
-            res.status(500).send({ error: 'Failed to fetch stock data' });
-        });
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+    next(createError(404));
 });
+
+// error handler
+app.use((err, req, res, next) => {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+  
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
+});
+
+'use strict';
 
 // Add stock to watchlist
 app.post('/watchlist/add', (req, res) => {
@@ -123,6 +106,13 @@ app.get('/watchlist/:user_id', (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+const startServer = async () => {
+    // await checkDatabaseConnection();
+    app.listen(port, () => {
+        console.log(`Server running on port ${port}`);
+    });
+}
+
+startServer()
+
+export default app;
