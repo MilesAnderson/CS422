@@ -7,7 +7,7 @@ const apiKey = process.env.API_KEY;
 
 const baseUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
 router.get('/', async (req, res) =>{
-  const { ticker } = req.query;
+  const { ticker } = req.query; // Changed from req.params
 
   if (!ticker) {
     return res.status(400).send({ message: "We need a stock ticker" });
