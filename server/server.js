@@ -3,6 +3,8 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from 'cors';
+import createError from 'http-errors';
+import { checkDatabaseConnection } from './db.js'
 
 import stocksApi from "./routes/stocksApi.js";
 import test from "./routes/test.js";
@@ -107,7 +109,7 @@ app.get('/watchlist/:user_id', (req, res) => {
 
 // Start the server
 const startServer = async () => {
-    // await checkDatabaseConnection();
+    await checkDatabaseConnection();
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
