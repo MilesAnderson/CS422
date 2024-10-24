@@ -8,6 +8,7 @@ import { checkDatabaseConnection } from './db.js'
 
 import stocksApi from "./routes/stocksApi.js";
 import stockRoutes from "./routes/stockRoutes.js";
+import userRoutes from './routes/userRoutes.js';
 import test from "./routes/test.js";
 
 const app = express(); // Express application created
@@ -29,6 +30,7 @@ app.use(express.static(path.join(path.resolve(), 'public')));
 
 app.use('/test', test);
 app.use('/api/stocks', stocksApi);
+app.use('/api', userRoutes);
 app.use('/api/watchlist', stockRoutes);
 
 // catch 404 and forward to error handler
