@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 import './css/App.css';
@@ -8,30 +8,27 @@ import './css/About.css';
 import './css/SearchBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import NavBar from './components/NavBar'
+import NavBar from './components/NavBar';
 import SearchIcon from './img/SearchIcon.png';
 
 function App() {
   const [stocks, setStocks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("Test");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSearch = (query) => {
-    setStocks([]);
-    setSearchQuery(query);
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/api/stocks?q=${searchQuery}`);
+      setStocks(response.data || []);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching the API:", error);
+    }
   };
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await axios.get(`http://localhost:5000/api/test?q=${searchQuery}`);
-        setStocks(response.data || []);
-        console.log(response.data);
-      } catch (error) {
-        console.error("Error fetching the API:", error);
-      }
-    };
-    fetchBooks();
-  }, [searchQuery]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleSearch();
+  };
 
   return (
     <div className="App">
@@ -39,15 +36,20 @@ function App() {
       <header className="App-header">
         <h1 className="Title">Search up a stock!</h1>
       </header>
-      <div className="SearchBarContainer">
-          <input
+      <form className="SearchBarContainer" onSubmit={handleSubmit}>
+        <input
           className="SearchBar"
           type="text"
           value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for a stock..."
         />
-        <img src={ SearchIcon } alt="Search Icon" className="SearchIcon"/>
+        <button type="submit" className="SearchButton">
+          <img src={SearchIcon} alt="Search Icon" className="SearchIcon" />
+        </button>
+      </form>
+      <div className='test'>
+        {stocks.length > 0 ? stocks.map(stock => <div key={stock.id}>{stock.name}</div>) : "No stocks found"}
       </div>
     </div>
   );

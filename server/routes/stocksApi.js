@@ -7,8 +7,7 @@ const apiKey = process.env.API_KEY;
 
 const baseUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
 router.get('/', async (req, res) =>{
-  const { ticker } = req.query; // Changed from req.params
-
+  const ticker = req.query.q; // Changed from req.params
   if (!ticker) {
     return res.status(400).send({ message: "We need a stock ticker" });
   }
@@ -17,6 +16,7 @@ router.get('/', async (req, res) =>{
 
   axios.get(fullUrl, { headers: { 'User-Agent': 'axios' } })
     .then(response => {
+      console.log(response.data)
       // Check if the response contains the expected time series data
       if (response.data['Time Series (60min)']) {
         const timeSeries = response.data['Time Series (60min)'];
