@@ -28,6 +28,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(path.resolve(), 'public')));
 
+/*
+when user does
+app.use('/api/stocks', stocksApi), server will invoke functions defined
+at stocksApi.js which was defined above as import stocksApi from "./routes/stocksApi.js";
+*/
 app.use('/test', test);
 app.use('/api/stocks', stocksApi);
 app.use('/api', userRoutes);
@@ -50,6 +55,8 @@ app.use((err, req, res, next) => {
 });
 
 'use strict';
+
+
 
 // Start the server
 const startServer = async () => {
