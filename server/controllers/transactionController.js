@@ -44,7 +44,8 @@ const deletePortfolioTrades = async (req,res) => {
 
 const deleteTrade = async (req,res) => {            //May need to change params
     try{
-        const { portfolio_id, trade_id } = req.body;
+        const { portfolio_id} = req.body;
+        const { trade_id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Portfolio id does not exist"});
         } else if (!trade_id) {
@@ -63,7 +64,8 @@ const deleteTrade = async (req,res) => {            //May need to change params
 
 const getTrade = async (req, res) => {              //May need to change params
     try{
-        const { portfolio_id, trade_id } = req.body;
+        const { portfolio_id, } = req.body;
+        const { trade_id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Portfolio id does not exist"});
         } else if (!trade_id) {
