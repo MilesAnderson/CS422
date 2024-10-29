@@ -26,10 +26,10 @@ const deletePortfolio = async (req,res) => {
             return res.status(400).json({error:"Invalid portfolio id"});
         }
         //Doing querying to database
-        const result = await pool.query('DELETE FROM portfolios WHERE portfolio_id=$1 RETURNING *',
+        await pool.query('DELETE FROM portfolios WHERE portfolio_id=$1',
             [portfolio_id]
         );
-        res.status(200).json(result.rows[0]);
+        res.status(200).json({message:"Portfolio deleted"});
     } catch (err) {
         console.error("Something went wrong deleting portfolio:", err.message);
         res.status(500).json({ err:"Internal Server Error" });
@@ -53,7 +53,7 @@ const getPortfolio = async (req,res) => {
     }
 };
 
-const increaseBalance = async (req,res) => {
+const changeBalance = async (req,res) => {
     try {
         const { portfolio_id, ammount } = req.body;
         if (!portfolio_id) {
@@ -68,6 +68,7 @@ const increaseBalance = async (req,res) => {
         if (result1.rows.length === 0) {                                //Wrong portfolio_id
             return res.status(400).json({error:"Invalid portfolio id"});
         }
+        //Needs to be negative if decreasing balance
         const total = result1.rows[0] + ammount;
         const result2 = await pool.query('UPDATE portfolios SET balance=$1 WHERE portfolio_id=$1 RETURNING *', 
             [total]
@@ -79,6 +80,7 @@ const increaseBalance = async (req,res) => {
     }
 };
 
+/*
 const decreaseBalance = async (res,req) => {
     try {
         const { portfolio_id, ammount } = req.body;
@@ -105,6 +107,6 @@ const decreaseBalance = async (res,req) => {
     } catch (err) {
         console.log("Something went wrong decreasing portfolio balance", err.message);
     }
-};
+};*/
 
-export { createPortfolio, deletePortfolio, getPortfolio, increaseBalance, decreaseBalance };
+export { createPortfolio, deletePortfolio, getPortfolio, changeBalance };     //decrease balance
