@@ -26,10 +26,10 @@ const deletePortfolio = async (req,res) => {
             return res.status(400).json({error:"Invalid portfolio id"});
         }
         //Doing querying to database
-        const result = await pool.query('DELETE FROM portfolios WHERE portfolio_id=$1 RETURNING *',
+        await pool.query('DELETE FROM portfolios WHERE portfolio_id=$1',
             [portfolio_id]
         );
-        res.status(200).json(result.rows[0]);
+        res.status(200).json({message:"Portfolio deleted"});
     } catch (err) {
         console.error("Something went wrong deleting portfolio:", err.message);
         res.status(500).json({ err:"Internal Server Error" });
