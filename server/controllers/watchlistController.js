@@ -2,7 +2,7 @@ import { pool } from '../db.js'; // imports connection
 
 const addWatchlist = async (req, res) => {
     try {
-      const { user_id, stock_symbol } = req.body;
+      const { name, user_id, stock_id } = req.body;
       
       if (!user_id) {
         return res.status(400).json({ error: 'Invalid user ID' });
@@ -10,19 +10,15 @@ const addWatchlist = async (req, res) => {
         return res.status(400).json({ error: 'Invalid stock symbol' });
       }
   
-      // Get the stock_id from the stocks table
-      const stockResult = await pool.query('SELECT stock_id FROM stocks WHERE symbol = $1', [stock_symbol]);
+      const stockResult = await pool.query('INSERT INTO watchlists (name, user_id, stock_id, created_at) VALUES ($1, $2, $3, NOW()) RETURNING *',
+            [name, user_id, stock_id]);
       
       if (stockResult.rows.length === 0) {
-        return res.status(404).json({ error: `Stock symbol ${stock_symbol} not found` });
+        return res.status(404).json({ error: `Stock symbol ${stock_id} not found` });
       }
-      
-      const stock_id = stockResult.rows[0].stock_id;
   
-      // Insert into the watchlists table
-      await pool.query('INSERT INTO watchlists (user_id, stock_id) VALUES ($1, $2)', [user_id, stock_id]);
-  
-      res.status(200).send({ message: `Stock ${stock_symbol} added to watchlist for user ${user_id}` });
+      res.status(200).send({ message: `Stock ${stock_id} added to watchlist for user ${user_id}` });
+
     } catch (err) {
       console.error('Error adding stock to watchlist:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
@@ -60,7 +56,7 @@ const addWatchlist = async (req, res) => {
       console.error('Error removing stock from watchlist:', err.message);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  };
+  }
   
 // adds a watchlist with no
 const watchlist = async (req, res) => {
