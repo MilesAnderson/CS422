@@ -1,10 +1,10 @@
 import express from 'express';
-const router = express.Router();
-import { addWatchlist, removeWatchlist, watchlist } from '../controllers/watchlistController.js';
+const router = express.router();
+import { addStock, deleteStock, getStock, updatePrice } from '../controllers/stockController.js';
 
-// functions have been imported and abstracted here
-router.post('/addWatchlist', addWatchlist);
-router.post('/removeWatchlist', removeWatchlist);
-router.get('/:user_id/watchlist', watchlist);
+router.post('/stocks', addStock);
+router.delete('/stocks/:id', deleteStock);
+router.get('/stocks/:id', getStock);
+router.put('/stocks/:id', updatePrice);
 
 export default router;

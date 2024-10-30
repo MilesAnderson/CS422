@@ -45,15 +45,15 @@ const deletePortfolioTrades = async (req,res) => {
 const deleteTrade = async (req,res) => {            //May need to change params
     try{
         const { portfolio_id} = req.body;
-        const { trade_id } = req.params;
+        const { id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Portfolio id does not exist"});
-        } else if (!trade_id) {
+        } else if (!id) {
             return res.status(400).json({error:"Trade id does not exist"});
         }
         //Database queries
         await pool.query('DELETE FROM trades WHERE portfolio_id=$1 AND trade_id=$2',
-            [portfolio_id, trade_id]
+            [portfolio_id, id]
         );
         res.status(200).send({ message:"Trade deleted from portfolio" });
     } catch (err) {
@@ -65,15 +65,15 @@ const deleteTrade = async (req,res) => {            //May need to change params
 const getTrade = async (req, res) => {              //May need to change params
     try{
         const { portfolio_id, } = req.body;
-        const { trade_id } = req.params;
+        const { id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Portfolio id does not exist"});
-        } else if (!trade_id) {
+        } else if (!id) {
             return res.status(400).json({error:"Trade id does not exist"});
         }
         //Database queries
         const result = await pool.query('SELECT * FROM trades WHERE portfolio_id=$1 AND trade_id=$2',
-            [portfolio_id, trade_id]
+            [portfolio_id, id]
         )
         res.status(200).json(result.rows[0]);
     } catch (err) {
