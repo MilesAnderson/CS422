@@ -7,9 +7,9 @@ import createError from 'http-errors';
 import { checkDatabaseConnection } from './db.js'
 
 import stocksApi from "./routes/stocksApi.js";
-import stockRoutes from "./routes/stockRoutes.js";
 import userRoutes from './routes/userRoutes.js';
 import test from "./routes/test.js";
+import watchlistRoutes from "./routes/watchlistRoutes.js";
 
 const app = express(); // Express application created
 const port = process.env.PORT || 5000; 
@@ -36,7 +36,7 @@ at stocksApi.js which was defined above as import stocksApi from "./routes/stock
 app.use('/test', test);
 app.use('/api/stocks', stocksApi);
 app.use('/api', userRoutes);
-app.use('/api/watchlist', stockRoutes);
+app.use('/api/watchlist', watchlistRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
