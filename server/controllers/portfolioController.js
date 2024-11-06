@@ -21,7 +21,7 @@ const createPortfolio = async (req, res) => {
 
 const deletePortfolio = async (req,res) => {
     try {
-        const { portfolio_id } = req.body;
+        const { portfolio_id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Invalid portfolio id"});
         }
@@ -38,7 +38,7 @@ const deletePortfolio = async (req,res) => {
 
 const getPortfolio = async (req,res) => {
     try {
-        const { portfolio_id } = res.body;
+        const { portfolio_id } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({ error:"Invalid portfolio id" });
         }
@@ -55,7 +55,7 @@ const getPortfolio = async (req,res) => {
 
 const changeBalance = async (req,res) => {
     try {
-        const { portfolio_id, ammount } = req.body;
+        const { portfolio_id, ammount } = req.params;
         if (!portfolio_id) {
             return res.status(400).json({error:"Invalid portfolio id"});
         } else if (!ammount) {

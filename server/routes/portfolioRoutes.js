@@ -3,8 +3,8 @@ const router = express.Router();
 import { createPortfolio, deletePortfolio, getPortfolio, changeBalance } from '../controllers/portfolioController.js';
 
 router.post('/portfolios', createPortfolio);
-router.delete('/portfolios', deletePortfolio);
-router.get('/portfolios', getPortfolio);
-router.put('/portfolios', changeBalance);
+router.delete('/portfolios/:id', deletePortfolio);
+router.get('/portfolios/:id', getPortfolio);
+router.put('/portfolios/:id', changeBalance);
 
 export default router;
