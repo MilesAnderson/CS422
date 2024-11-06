@@ -23,5 +23,4 @@ const checkDatabaseConnection = async () => {
     }
 };
 
-checkDatabaseConnection();
 export { pool, checkDatabaseConnection };
