@@ -8,8 +8,10 @@ import { checkDatabaseConnection } from './db.js'
 
 import stocksApi from "./routes/stocksApi.js";
 import userRoutes from './routes/userRoutes.js';
-import test from "./routes/test.js";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
+import portfolioRoutes from "./routes/portfolioRoutes.js";
+import stockRoutes from "./routes/stockRoutes.js";
+import tradeRoutes from "./routes/tradeRoutes.js";
 
 const app = express(); // Express application created
 const port = process.env.PORT || 5000; 
@@ -33,10 +35,12 @@ when user does
 app.use('/api/stocks', stocksApi), server will invoke functions defined
 at stocksApi.js which was defined above as import stocksApi from "./routes/stocksApi.js";
 */
-app.use('/test', test);
 app.use('/api/stocks', stocksApi);
 app.use('/api', userRoutes);
 app.use('/api/watchlist', watchlistRoutes);
+app.use('/api', portfolioRoutes);
+app.use('/api/stock', stockRoutes);               //Router for stocks table
+app.use('/api/trades', tradeRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
