@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.router();
+const router = express.Router();
 import { addStock, deleteStock, getStock, updatePrice } from '../controllers/stockController.js';
 
 router.post('/stocks', addStock);

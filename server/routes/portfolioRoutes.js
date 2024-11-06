@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.router();
+const router = express.Router();
 import { createPortfolio, deletePortfolio, getPortfolio, changeBalance } from '../controllers/portfolioController.js';
 
 router.post('/portfolios', createPortfolio);

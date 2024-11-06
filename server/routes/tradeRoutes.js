@@ -1,5 +1,5 @@
 import express from 'express';
-const router = express.router()
+const router = express.Router()
 import { addTrade, deletePortfolioTrades, deleteTrade, getPortfolioTrades, getTrade} from '../controllers/transactionController.js'
 
 router.post('/trades', addTrade);
