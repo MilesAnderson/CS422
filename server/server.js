@@ -8,7 +8,6 @@ import { checkDatabaseConnection } from './db.js'
 
 import stocksApi from "./routes/stocksApi.js";
 import userRoutes from './routes/userRoutes.js';
-import test from "./routes/test.js";
 import watchlistRoutes from "./routes/watchlistRoutes.js";
 
 const app = express(); // Express application created
@@ -33,7 +32,6 @@ when user does
 app.use('/api/stocks', stocksApi), server will invoke functions defined
 at stocksApi.js which was defined above as import stocksApi from "./routes/stocksApi.js";
 */
-app.use('/test', test);
 app.use('/api/stocks', stocksApi);
 app.use('/api', userRoutes);
 app.use('/api/watchlist', watchlistRoutes);
