@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
 
 'use strict';
 
-
+module.exports = app;
 
 // Start the server
 const startServer = async () => {
