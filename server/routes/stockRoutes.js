@@ -2,9 +2,9 @@ import express from 'express';
 const router = express.Router();
 import { addStock, deleteStock, getStock, updatePrice } from '../controllers/stockController.js';
 
-router.post('/stocks', addStock);
-router.delete('/stocks/:id', deleteStock);
-router.get('/stocks/:id', getStock);
-router.put('/stocks/:id', updatePrice);
+router.post('/stock', addStock);
+router.delete('/stock/:id', deleteStock);
+router.get('/stock/:id', getStock);
+router.put('/stock/:id', updatePrice);
 
 export default router;
