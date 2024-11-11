@@ -30,9 +30,10 @@ router.get('/', async (req, res) => {
     if (!timeSeriesData) {
       return res.status(500).send({ error: "Failed to retrieve stock price data." });
     }
-    const timestamps = Object.keys(timeSeriesData);
-    const lastTimestamp = timestamps[timestamps.length - 1];
-    const price = timeSeriesData[lastTimestamp]['4. close'];
+
+    // Get the first timestamp (most recent)
+    const mostRecentTimestamp = Object.keys(timeSeriesData)[0];  // This will get the most recent timestamp
+    const price = timeSeriesData[mostRecentTimestamp]['4. close'];  // Get the closing price for the most recent timestamp
 
     // Process the SYMBOL_SEARCH response to get the company name
     const bestMatch = searchResponse.data.bestMatches?.[0];
@@ -43,8 +44,8 @@ router.get('/', async (req, res) => {
       data: {
         companyName: companyName,
         symbol: ticker.toUpperCase(),
-        timestamp: lastTimestamp,
-        price: parseFloat(price).toFixed(2) // Format price to 2 decimal places
+        timestamp: mostRecentTimestamp,
+        price: parseFloat(price).toFixed(2)  // Format price to 2 decimal places
       }
     });
 
