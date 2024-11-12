@@ -5,48 +5,54 @@ import 'dotenv/config';
 const router = express.Router();
 const apiKey = process.env.API_KEY;
 
-const baseUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
-router.get('/', async (req, res) =>{
-  const ticker = req.query.q; // Changed from req.params
+const timeSeriesUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=';
+const searchUrl = 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=';
+
+router.get('/', async (req, res) => {
+  const ticker = req.query.q;
   if (!ticker) {
     return res.status(400).send({ message: "We need a stock ticker" });
   }
-  // Build the complete URL for each request
-  const fullUrl = `${baseUrl}${ticker}&interval=60min&apikey=${apiKey}`;
 
-  axios.get(fullUrl, { headers: { 'User-Agent': 'axios' } })
-    .then(response => {
-      console.log(response.data)
-      // Check if the response contains the expected time series data
-      if (response.data['Time Series (60min)']) {
-        const timeSeries = response.data['Time Series (60min)'];
-        const timestamps = Object.keys(timeSeries);
-        const lastTimestamp = timestamps[timestamps.length - 1];
-        const price = timeSeries[lastTimestamp]['4. close']; // Extract the closing price
+  // Build URLs for both TIME_SERIES and SYMBOL_SEARCH requests
+  const fullTimeSeriesUrl = `${timeSeriesUrl}${ticker}&interval=60min&apikey=${apiKey}`;
+  const fullSearchUrl = `${searchUrl}${ticker}&apikey=${apiKey}`;
 
-        console.log(`Price at ${lastTimestamp}: ${price}`); // Log the price
+  try {
+    // Perform both requests concurrently
+    const [timeSeriesResponse, searchResponse] = await Promise.all([
+      axios.get(fullTimeSeriesUrl, { headers: { 'User-Agent': 'axios' } }),
+      axios.get(fullSearchUrl, { headers: { 'User-Agent': 'axios' } })
+    ]);
 
-        res.send({
-          data: {
-            timestamp: lastTimestamp,
-            price: price
-          }
-        });
-      } else {
-          // Handle error if time series data is not available
-          res.status(500).send({ error: "Failed to retrieve stock data." });
+    // Process the TIME_SERIES response
+    const timeSeriesData = timeSeriesResponse.data['Time Series (60min)'];
+    if (!timeSeriesData) {
+      return res.status(500).send({ error: "Failed to retrieve stock price data." });
+    }
+
+    // Get the first timestamp (most recent)
+    const mostRecentTimestamp = Object.keys(timeSeriesData)[0];  // This will get the most recent timestamp
+    const price = timeSeriesData[mostRecentTimestamp]['4. close'];  // Get the closing price for the most recent timestamp
+
+    // Process the SYMBOL_SEARCH response to get the company name
+    const bestMatch = searchResponse.data.bestMatches?.[0];
+    const companyName = bestMatch ? bestMatch["2. name"] : "Unknown";
+
+    // Send the combined data as the response
+    res.send({
+      data: {
+        companyName: companyName,
+        symbol: ticker.toUpperCase(),
+        timestamp: mostRecentTimestamp,
+        price: parseFloat(price).toFixed(2)  // Format price to 2 decimal places
       }
-    })
-    .catch(error => {
-      if (error.response) {
-        console.log('Status:', error.response.status);  // Server responded with a status code outside of the 2xx range
-      } else if (error.request) {
-        console.log('Error:', error.request);  // Request was made but no response received
-      } else {
-        console.log('Error:', error.message);  // Other errors, like setting up the request
-      }
-      res.status(500).send({ error: 'Failed to fetch stock data' });
     });
-})
+
+  } catch (error) {
+    console.error("Error fetching stock data:", error);
+    res.status(500).send({ error: 'Failed to fetch stock data' });
+  }
+});
 
 export default router;

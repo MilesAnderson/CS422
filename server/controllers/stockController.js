@@ -9,13 +9,13 @@ const addStock = async (req,res) => {
             return res.status(400).json( {error:"Invalid current price"});
         }
         //Database queries
-        const result = await pool.query('INSERT INTO stocks VALUES (DEFAULT, $1, $2, CURRENT_TIMESTAMP()) RETURNING *',
+        const result = await pool.query('INSERT INTO stocks VALUES (DEFAULT, $1, $2, CURRENT_TIMESTAMP) RETURNING *',
             [symbol, curr_price]
         );
         res.status(200).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({error:"Invalid Server Error"});
+        res.status(500).json({error:"Internal Server Error"});
     }
 }
 
@@ -32,7 +32,7 @@ const deleteStock = async (req,res) => {
         res.status(200).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({error:"Invalid Server Error"});
+        res.status(500).json({error:"Internal Server Error"});
     }
 }
 
@@ -49,7 +49,7 @@ const getStock = async (req,res) => {
         res.status(200).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({error:"Invalid Server Error"});
+        res.status(500).json({error:"Internal Server Error"});
     }
 }
 
@@ -64,12 +64,13 @@ const updatePrice = async (req,res) => {
             return res.status(400).json({ error:"Invalid price"});
         }
         //Database Queries
-        const result = await pool.query('UPDATE stocks SET curr_price=$1 WHERE stock_id=$2',
+        const result = await pool.query('UPDATE stocks SET curr_price=$1 WHERE stock_id=$2 RETURNING *',
             [price, id]
         );
+        res.status(200).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
-        res.status(500).json({error:"Invalid Server Error"});
+        res.status(500).json({error:"Internal Server Error"});
     }
 }
 
