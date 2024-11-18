@@ -5,6 +5,7 @@ import { addStock, deleteStock, getStock, updatePrice } from '../controllers/sto
 router.post('/stock', addStock);
 router.delete('/stock/:id', deleteStock);
 router.get('/stock/:id', getStock);
+router.get('/stock', getStock);
 router.put('/stock/:id', updatePrice);
 
 export default router;
