@@ -76,5 +76,5 @@ const startServer = async () => {
 }
 
 startServer()
-module.exports = app;
-//export default app;
+//module.exports = app;
+export default app;
