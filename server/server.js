@@ -78,10 +78,5 @@ const startServer = async () => {
 }
 
 startServer()
-<<<<<<< HEAD
-
-export default app;
-=======
 //module.exports = app;
 export default app;
->>>>>>> f176450dcbe76d054a4f23b0e1685d48840ff2ea
