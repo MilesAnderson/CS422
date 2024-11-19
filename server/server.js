@@ -14,6 +14,7 @@ import portfolioRoutes from "./routes/portfolioRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
 import tradeRoutes from "./routes/tradeRoutes.js";
 import buyStockRoutes from "./routes/buyStockRoutes.js";
+import viewPortfolioRoutes from "./routes/viewPortfolioRoutes.js";
 
 const app = express(); // Express application created
 const port = process.env.PORT || 5000; 
@@ -45,6 +46,7 @@ app.use('/api', portfolioRoutes);
 app.use('/api/stock', stockRoutes);               //Router for stocks table
 app.use('/api/trades', tradeRoutes);
 app.use('/api/buy', buyStockRoutes);
+app.use('/api/getPortfolioStocks', viewPortfolioRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
