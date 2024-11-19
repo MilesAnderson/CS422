@@ -36,7 +36,7 @@ const deleteStock = async (req,res) => {
     }
 }
 
-const getStock = async (req,res) => {
+const getStockById = async (req,res) => {
     try {
         const { id } = req.params;
         if (!id) {
@@ -46,6 +46,20 @@ const getStock = async (req,res) => {
         const result = await pool.query('SELECT * FROM stocks WHERE stock_id=$1',
             [id]
         );
+        res.status(200).json(result.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({error:"Internal Server Error"});
+    }
+}
+
+const getStockBySymbol = async (req,res) => {
+    try {
+        const { symbol } = req.body;
+        if (!symbol) {
+            return res.status(400).json({error:"Invalid stock symbol"});
+        }
+        const result = await pool.query('SELECT * FROM stocks WHERE symbol=$1', [symbol]);
         res.status(200).json(result.rows[0]);
     } catch (err) {
         console.error(err.message);
@@ -74,4 +88,4 @@ const updatePrice = async (req,res) => {
     }
 }
 
-export { addStock, deleteStock, getStock, updatePrice };
+export { addStock, deleteStock, getStockById, getStockBySymbol, updatePrice };
