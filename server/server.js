@@ -13,7 +13,9 @@ import watchlistRoutes from "./routes/watchlistRoutes.js";
 import portfolioRoutes from "./routes/portfolioRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
 import tradeRoutes from "./routes/tradeRoutes.js";
+//Larger Apis
 import buyStockRoutes from "./routes/buyStockRoutes.js";
+import sellStockRoutes from "./routes/sellStockRoutes.js";
 import viewPortfolioRoutes from "./routes/viewPortfolioRoutes.js";
 
 const app = express(); // Express application created
@@ -43,9 +45,10 @@ app.use('/api/stocks', stocksApi);
 app.use('/api', userRoutes);
 app.use('/api/watchlist', watchlistRoutes);
 app.use('/api', portfolioRoutes);
-app.use('/api/stock', stockRoutes);               //Router for stocks table
-app.use('/api/trades', tradeRoutes);
+app.use('/api', stockRoutes);               //Router for stocks table
+app.use('/api', tradeRoutes);
 app.use('/api/buy', buyStockRoutes);
+app.use('/api', sellStockRoutes);
 app.use('/api/getPortfolioStocks', viewPortfolioRoutes);
 
 // catch 404 and forward to error handler
@@ -75,5 +78,10 @@ const startServer = async () => {
 }
 
 startServer()
+<<<<<<< HEAD
 
 export default app;
+=======
+//module.exports = app;
+export default app;
+>>>>>>> f176450dcbe76d054a4f23b0e1685d48840ff2ea
