@@ -55,7 +55,7 @@ const getStockById = async (req,res) => {
 
 const getStockBySymbol = async (req,res) => {
     try {
-        const { symbol } = req.body;
+        const symbol = req.query.q;
         if (!symbol) {
             return res.status(400).json({error:"Invalid stock symbol"});
         }

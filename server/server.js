@@ -47,7 +47,7 @@ app.use('/api/watchlist', watchlistRoutes);
 app.use('/api', portfolioRoutes);
 app.use('/api', stockRoutes);               //Router for stocks table
 app.use('/api', tradeRoutes);
-app.use('/api/buy', buyStockRoutes);
+app.use('/api', buyStockRoutes);
 //app.use('/api', sellStockRoutes);
 app.use('/api', viewPortfolioRoutes);
 
