@@ -49,7 +49,7 @@ app.use('/api', stockRoutes);               //Router for stocks table
 app.use('/api', tradeRoutes);
 app.use('/api/buy', buyStockRoutes);
 //app.use('/api', sellStockRoutes);
-app.use('/api/getPortfolioStocks', viewPortfolioRoutes);
+app.use('/api', viewPortfolioRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
