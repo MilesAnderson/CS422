@@ -39,7 +39,7 @@ const buyStock = async (req, res) => {
     await axios.post(`http://localhost:5000/api/trades`, {
       portfolio_id:portfolio_id,
       symbol:symbol,
-      type:"BUY",
+      trade_type:"BUY",
       quantity:quantity,
       curr_price:curr_price
     });

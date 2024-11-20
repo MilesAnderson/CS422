@@ -4,12 +4,12 @@ import { pool } from '../db.js'
 
 const addTrade = async (req,res) => {
     try {
-        const { portfolio_id, symbol, type, quantity, curr_price } = req.body;
+        const { portfolio_id, symbol, trade_type, quantity, curr_price } = req.body;
         if (!portfolio_id) {
             return res.status(400).json({error:"Invalid portfolio id"});
         } else if (!symbol){
             return res.status(400).json({error:"Invalid symbol"});
-        } else if (!type) {
+        } else if (!trade_type) {
             return res.status(400).json({error: "Invalid trade type"});
         } else if (!curr_price || curr_price<0.0){
             return res.status(400).json({error:"Invalid current price"}); 
@@ -18,7 +18,7 @@ const addTrade = async (req,res) => {
         }
         //Do db queries
         const result = await pool.query('INSERT INTO trades VALUES (DEFAULT, $1, $2, $3, $4, $5, CURRENT_TIMESTAMP) RETURNING *',
-            [ portfolio_id, symbol, type, quantity, curr_price ]
+            [ portfolio_id, symbol, trade_type, quantity, curr_price ]
         );
         res.status(200).json(result.rows[0]);
     } catch (err) {
