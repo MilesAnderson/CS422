@@ -4,13 +4,11 @@ import bcrypt from 'bcrypt';
 
 const signIn = async (req,res) => {
     try {
-        console.log(req.body);
         const { username, email, password } = req.body;
         if (!username || !email || !password) {
             return res.status(400).json({error:"Invalid credentials given in request"});
         }
         const result = await pool.query("SELECT * FROM users WHERE email=$1", [email]);
-        console.log(result.rows[0].password);
         //Invalid email
         if (!result.rows[0].email) {
             return res.status(400).json({ error:"No user associated with that email" });
@@ -23,11 +21,10 @@ const signIn = async (req,res) => {
         if (!await bcrypt.compare(password, result.rows[0].password)) {
             return res.status(400).json({ error:"Wrong password given with email"});
         }
-        console.log("lastly");
         res.status(200).json({
             message:"Successfully signed in",
             user_id:result.rows[0].user_id
-        })
+        });
     } catch (err) {
         console.error("Something when wrong when signing in:", err.message);
         res.status(500).json({ err:"Internal Server Error" });
