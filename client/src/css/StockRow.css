@@ -1,0 +1,65 @@
+.StockRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  list-style: none;
+}
+
+.StockRowInfo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.StockRowSymbol {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.StockRowCompany {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.StockRowQuantity,
+.StockRowPrice,
+.StockRowTotalValue {
+  margin-right: 10px;
+}
+
+.SellStockButton {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.SellStockButton:hover {
+  background-color: #ff7875;
+}
+
+.SellStockButton:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.SuccessMessage {
+  margin-top: 5px;
+  color: #4caf50;
+  font-size: 12px;
+}
+
+.ErrorMessage {
+  margin-top: 5px;
+  color: #ff4d4f;
+  font-size: 12px;
+}
