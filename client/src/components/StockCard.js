@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import '../css/StockCard.css';
 
@@ -7,6 +7,10 @@ import '../css/StockCard.css';
 const StockCard = ({ stocks }) => {
   const [buySuccess, setBuySuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+
+  const userRef = useRef(JSON.parse(localStorage.getItem('user')));
+  const user = userRef.current || {};
 
   if (!stocks || !stocks.data) {
     return <p>No stock data found</p>;
@@ -24,13 +28,26 @@ const StockCard = ({ stocks }) => {
     hour12: true
   });
 
+  const handleAddWatchlist = async () => {
+    try {
+        const response = await axios.post('http://localhost:5000/api/watchlist/addWatchlist', {
+            watchlist_name: user.user_id, 
+            user_id: user.user_id, 
+            stock_ticker: symbol,
+            curr_price: price,
+        });
+    } catch (error) {
+        console.error('Error adding stock to watchlist:', error);
+        setErrorMessage('Error connecting to the server. Please try again.');
+    }
+  }
 
   const handleBuyStock = async () => {
     try {
       const response = await axios.post('http://localhost:5000/api/buy', {
         symbol: symbol,
         price: price,
-        quantity: 1
+        quantity: 1,
       });
 
       // Handle the response
@@ -68,6 +85,10 @@ const StockCard = ({ stocks }) => {
 
         <button className="BuyStockButton" onClick={handleBuyStock}>
           Buy Stock
+        </button>
+
+        <button className="addWatchList" onClick={handleAddWatchlist}>
+            Add to Watchlist
         </button>
 
         {buySuccess && <p className="SuccessMessage">You have successfully purchased {companyName} stock!</p>}
