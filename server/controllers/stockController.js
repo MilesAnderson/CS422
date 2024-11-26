@@ -70,16 +70,16 @@ const getStockBySymbol = async (req,res) => {
 const updatePrice = async (req,res) => {
     try {
         const { id } = req.params;
-        const { price } = req.body;
+        const { curr_price } = req.body;
         if (!id) {
             return res.status(400).json({ error:"Invalid stock id" });
         }
-        if (!price || price < 0.0) {
+        if (!curr_price || curr_price < 0.0) {
             return res.status(400).json({ error:"Invalid price"});
         }
         //Database Queries
         const result = await pool.query('UPDATE stocks SET curr_price=$1 WHERE stock_id=$2 RETURNING *',
-            [price, id]
+            [curr_price, id]
         );
         res.status(200).json(result.rows[0]);
     } catch (err) {
