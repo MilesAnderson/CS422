@@ -44,10 +44,14 @@ const StockCard = ({ stocks }) => {
 
   const handleBuyStock = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/buy', {
+      let storage_user = JSON.parse(localStorage.getItem('user'))
+      let storage_id = storage_user["user_id"]
+
+      const response = await axios.post('http://localhost:5000/api/buyStock', {
+        user_id: storage_id,
         symbol: symbol,
-        price: price,
-        quantity: 1,
+        curr_price: price,
+        quantity: 1
       });
 
       // Handle the response

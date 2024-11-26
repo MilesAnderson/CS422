@@ -30,7 +30,6 @@ const buyStock = async (req, res) => {
 
     // Deduct the total cost from the user's balance
     const changeBalRes = await axios.put(`http://localhost:5000/api/portfolios/${portfolio_id}`, { ammount:-totalCost });
-    console.log("here");
     if (changeBalRes.status==400) {
       return res.status(400).json({error:"Invalid portfolio_id or ammount"});
     }
@@ -41,7 +40,7 @@ const buyStock = async (req, res) => {
       symbol:symbol,
       trade_type:"BUY",
       quantity:quantity,
-      curr_price:curr_price
+      price_per_share:curr_price
     });
 
     //Update or Create stock in stocks
@@ -49,7 +48,7 @@ const buyStock = async (req, res) => {
     if (!stockRes.data.symbol) {
         await axios.post(`http://localhost:5000/api/stock`, {symbol:symbol, curr_price:curr_price});
     } else {
-        await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {price:curr_price});
+        await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {curr_price:curr_price});
     }
 
     // Send a success response
