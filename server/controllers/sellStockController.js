@@ -56,7 +56,7 @@ const sellStock = async (req,res)=>{
         if (!stockRes.data.symbol) {
             return res.status(400).json({error:"Stock not in stocks table "});               //Should not get this
         } else {
-            await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {price:curr_price});
+            await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {curr_price:curr_price});
         }
         
         //Return success!

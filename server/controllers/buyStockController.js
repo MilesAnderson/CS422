@@ -49,7 +49,7 @@ const buyStock = async (req, res) => {
     if (!stockRes.data.symbol) {
         await axios.post(`http://localhost:5000/api/stock`, {symbol:symbol, curr_price:curr_price});
     } else {
-        await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {price:curr_price});
+        await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {curr_price:curr_price});
     }
 
     // Send a success response
