@@ -90,7 +90,6 @@ const Profile = () => {
       return <div>Loading your portfolio...</div>;
   }
   
-
   const handleLogout = () => {
     localStorage.removeItem('user');
     navigate('/');

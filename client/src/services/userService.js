@@ -13,7 +13,7 @@ export const createUser = async (newUser) => {
 
 export const authenticateUser = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/signIn`, credentials);
+    const response = await axios.post(`${API_URL}/authenticate`, credentials);
     return response.data;
   } catch (error) {
     throw new Error(error.response.data.error || 'Error authenticating user');
