@@ -23,6 +23,7 @@ const signUp = async (req,res) => {
         //Send user_id
         res.status(200).json({
             message:"Successfully signed in",
+            username:username,
             user_id:user_id
         });
     } catch (err) {

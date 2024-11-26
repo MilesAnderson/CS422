@@ -5,6 +5,8 @@ const buyStock = async (req, res) => {
   try {
     const { user_id, symbol, curr_price, quantity } = req.body;
 
+    console.log(user_id, symbol, curr_price, quantity);
+
     // Validate input
     if (!user_id || !symbol || !curr_price || !quantity) {
       return res.status(400).json({ error: "Missing required fields" });
