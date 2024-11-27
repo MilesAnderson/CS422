@@ -48,7 +48,7 @@ const sellStock = async (req,res)=>{
             symbol:symbol,
             trade_type:"SELL",
             quantity:quantity,
-            curr_price:curr_price,
+            price_per_share:curr_price,
         });
 
         //Update or Create stock in stocks
