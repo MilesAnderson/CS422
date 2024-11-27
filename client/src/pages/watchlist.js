@@ -1,24 +1,6 @@
-// // andrews version
-
-// import React from 'react';
-// import NavBar from '../components/NavBar';
-
-// const Watchlist = () => {
-//   return (
-//     <>
-//       <NavBar />
-//       <div className="watchlist-container">
-//         <h1>Watchlist</h1>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default Watchlist;
 
 
 import React, { useEffect, useState, useRef } from 'react';
-
 import NavBar from '../components/NavBar';
 
 const Watchlist = () => {
@@ -29,22 +11,13 @@ const Watchlist = () => {
   const userRef = useRef(JSON.parse(localStorage.getItem('user')));
   const user = userRef.current || {};
 
-  // This function fetches the watchlist from the backend
+  // Fetches the watchlist from the backend
   const fetchWatchlist = async () => {
     try {
-      // Replace with the actual API endpoint
-      const response = await fetch(`http://localhost:5000/api/watchlist/${user.user_id}/watchlist`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_id: 1 }), // Replace with dynamic user_id if needed
-      });
-
-      // Check if the response is successful
+      const response = await fetch(`http://localhost:5000/api/watchlist/${user.user_id}/watchlist`);
       if (response.ok) {
         const data = await response.json();
-        setWatchlist(data.watchlist);
+        setWatchlist(data.watchlist); // Expecting an array of symbols
       } else {
         throw new Error('Failed to fetch watchlist');
       }
@@ -57,7 +30,7 @@ const Watchlist = () => {
 
   useEffect(() => {
     fetchWatchlist();
-  }, []); // Empty dependency array ensures this runs once when the component mounts
+  }, []);
 
   if (loading) {
     return (
