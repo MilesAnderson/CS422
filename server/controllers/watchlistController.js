@@ -1,35 +1,64 @@
 import { pool } from '../db.js'; // imports connection
+import axios from 'axios';
 
 const addWatchlist = async (req, res) => {
     try {
-        const { name, user_id, stock_id } = req.body;
-        
+        const { watchlist_name, user_id, stock_ticker, curr_price } = req.body;
+
+        // Check required fields
         if (!user_id) {
             return res.status(400).json({ error: 'Invalid user ID' });
-        } else if (!stock_id) {  // Check for stock_id
+        }
+
+        // Update or Create stock in stocks
+        let stockRes = await axios.get(`http://localhost:5000/api/stock?q=${stock_ticker}`); // Get stock by symbol
+        if (!stockRes.data.symbol) {
+            await axios.post(`http://localhost:5000/api/stock`, { symbol: stock_ticker, curr_price: curr_price });
+        } else {
+            await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, { curr_price: curr_price });
+        }
+
+        // Get stock_id after ensuring the stock exists in the database
+        stockRes = await axios.get(`http://localhost:5000/api/stock?q=${stock_ticker}`);
+        const stock_id = stockRes.data.stock_id;
+
+        console.log(`addWatchlist/stock_id: ${stock_id}`);
+
+        if (!stock_id) { // Check for stock_id
             return res.status(400).json({ error: 'Invalid stock ID' });
         }
 
-        const stockResult = await pool.query(
-            'INSERT INTO watchlists (name, user_id, stock_id, created_at) VALUES ($1, $2, $3, NOW()) RETURNING *',
-            [name, user_id, stock_id]
+        // Check if the stock is already in the user's watchlist
+        const existingWatchlist = await pool.query(
+            'SELECT * FROM watchlists WHERE user_id = $1 AND stock_id = $2',
+            [user_id, stock_id]
         );
-        
-        if (stockResult.rows.length === 0) {
-            return res.status(404).json({ error: `Stock ID ${stock_id} not found` });
+
+        if (existingWatchlist.rows.length > 0) {
+            return res.status(200).json({
+                error: 'Stock is already in the user\'s watchlist',
+                data: existingWatchlist.rows[0], // Include the existing entry
+            });
         }
 
-        // Modify the response to include the 'data' property
+        // Add the stock to the watchlist
+        const stockResult = await pool.query(
+            'INSERT INTO watchlists (name, user_id, stock_id, created_at) VALUES ($1, $2, $3, NOW()) RETURNING *',
+            [watchlist_name, user_id, stock_id]
+        );
+
+        // Respond with success
         res.status(200).json({
-            success: true,  // Keep the success property
-            message: `Stock ${stock_id} added to watchlist for user ${user_id}`,
-            data: stockResult.rows[0],  // Add the data property with the first row of the result
+            success: true,
+            message: `Stock ${stock_ticker} added to watchlist for user ${user_id}`,
+            data: stockResult.rows[0],
         });
     } catch (err) {
         console.error('Error adding stock to watchlist:', err.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
 
 
 const removeWatchlist = async (req, res) => {
@@ -67,7 +96,7 @@ const removeWatchlist = async (req, res) => {
 
 const watchlist = async (req, res) => {
     try {
-        const { user_id } = req.body;
+        const { user_id } = req.params;
         if (!user_id) {
             return res.status(400).json({ error: 'Invalid user ID' });
         }
@@ -89,5 +118,8 @@ const watchlist = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
+
 
 export { addWatchlist, removeWatchlist, watchlist };
