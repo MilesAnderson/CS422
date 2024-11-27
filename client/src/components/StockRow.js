@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../css/StockRow.css';
 
 const StockRow = ({ stock }) => {
-  const [currentPrice, setCurrentPrice] = useState(stock.price); // Track the live price
+  const [currentPrice, setCurrentPrice] = useState(parseFloat(stock.price)); // Ensure initial price is a float
   const [currentQuantity, setCurrentQuantity] = useState(stock.quantity);
   const [sellSuccess, setSellSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -16,7 +16,7 @@ const StockRow = ({ stock }) => {
       try {
         const response = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
         if (response.data && response.data.data.price) {
-          setCurrentPrice(response.data.data.price); // Update the price
+          setCurrentPrice(parseFloat(response.data.data.price)); // Ensure updated price is a float
         } else {
           console.warn(`No price data returned for ${symbol}`);
         }

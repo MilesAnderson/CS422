@@ -27,7 +27,8 @@ const calcWorth = async (req,res) => {
         //const net_worth = -1;
         res.status(200).json({
             message: "Successfully calculated net worth",
-            net_worth:net_worth
+            net_worth:net_worth,
+            success: "true"
         });
     } catch (err) {
         console.error("Something when wrong when selling stock:", err.message);

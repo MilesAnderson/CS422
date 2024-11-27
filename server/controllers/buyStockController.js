@@ -54,7 +54,8 @@ const buyStock = async (req, res) => {
     // Send a success response
     res.status(200).json({
       message: `Successfully purchased ${quantity} shares of ${symbol}`,
-      balace : currentBalance-totalCost
+      balace : currentBalance-totalCost,
+      success: "true"
     });
   } catch (err) {
     console.error("Error purchasing stock:", err.message);
