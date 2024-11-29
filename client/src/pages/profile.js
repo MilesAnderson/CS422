@@ -6,7 +6,9 @@ import StockRow from '../components/StockRow';
 const Profile = () => {
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState([]);
-  const [totalWorth, setTotalWorth] = useState(0); // Add state for total worth
+  const [totalWorth, setTotalWorth] = useState(0); // Total money = liquid + asset
+  const [liquidMoney, setLiquidMoney] = useState(0); // Liquid money (balance)
+  const [assetMoney, setAssetMoney] = useState(0); // Asset money (stocks)
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const userRef = useRef(JSON.parse(localStorage.getItem('user')));
@@ -31,8 +33,8 @@ const Profile = () => {
           const data = await response.json();
           setPortfolio(data);
 
-          // Fetch total worth after setting portfolio
-          fetchTotalWorth(currentUser.user_id);
+          // Fetch total worth, liquid money, and asset money
+          fetchFinancialData(currentUser.user_id);
         } else {
           console.error("Failed to fetch portfolio:", response.statusText);
         }
@@ -44,7 +46,7 @@ const Profile = () => {
       }
     };
 
-    const fetchTotalWorth = async (userId) => {
+    const fetchFinancialData = async (userId) => {
       try {
         const response = await fetch('http://localhost:5000/api/calcWorth', {
           method: 'POST',
@@ -54,13 +56,15 @@ const Profile = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setTotalWorth(data.net_worth || 0); // Assume API returns { net_worth: <number> }
+          setTotalWorth(data.net_worth || 0); // Total money
+          setLiquidMoney(data.balance || 0); // Liquid money
+          setAssetMoney(data.assetWorth || 0); // Asset money
         } else {
-          console.error("Failed to fetch total worth:", response.statusText);
+          console.error("Failed to fetch financial data:", response.statusText);
         }
       } catch (err) {
-        console.error("Error while fetching total worth:", err.message);
-        setError('Failed to calculate total worth.');
+        console.error("Error while fetching financial data:", err.message);
+        setError('Failed to calculate financial data.');
       }
     };
 
@@ -92,7 +96,15 @@ const Profile = () => {
             <button className="SubmitButton" onClick={handleLogout}>Logout</button>
 
             <h2>Your Portfolio:</h2>
-            <h3>${totalWorth > 0 ? totalWorth.toFixed(2) : '0.00'}</h3>
+
+            {/* Display financial breakdown */}
+            <div className="FinancialSummary">
+              <h3>Financial Overview:</h3>
+              <p>Liquid Money: ${liquidMoney.toFixed(2)}</p>
+              <p>Asset Money: ${assetMoney.toFixed(2)}</p>
+              <p>Total Money: ${totalWorth.toFixed(2)}</p>
+            </div>
+
             {portfolio.length > 0 ? (
               <>
                 <ul className="PortfolioList">
