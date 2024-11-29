@@ -1,50 +1,91 @@
 .StockRow {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 10px;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  background: #f9f9f9;
-  list-style: none;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.StockRow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .StockRowInfo {
   display: flex;
-  justify-content: space-between;
-  width: 100%;
   align-items: center;
+  gap: 15px;
+  flex: 1;
 }
 
 .StockRowSymbol {
   font-weight: bold;
-  margin-right: 10px;
+  font-size: 1.2em;
+  color: #333;
 }
 
 .StockRowCompany {
   flex: 1;
-  margin-right: 10px;
+  color: #666;
+  font-size: 1em;
 }
 
 .StockRowQuantity,
 .StockRowPrice,
 .StockRowTotalValue {
-  margin-right: 10px;
+  font-size: 0.9em;
+  color: #444;
+}
+
+.StockRowActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.StockRowActions label {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.StockRowActions input {
+  width: 70px;
+  padding: 6px;
+  font-size: 0.9em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  color: #333;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.StockRowActions input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
 }
 
 .SellStockButton {
   background-color: #ff4d4f;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 15px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .SellStockButton:hover {
   background-color: #ff7875;
+  transform: scale(1.05);
 }
 
 .SellStockButton:disabled {
@@ -55,11 +96,13 @@
 .SuccessMessage {
   margin-top: 5px;
   color: #4caf50;
-  font-size: 12px;
+  font-size: 0.9em;
+  text-align: center;
 }
 
 .ErrorMessage {
   margin-top: 5px;
   color: #ff4d4f;
-  font-size: 12px;
+  font-size: 0.9em;
+  text-align: center;
 }

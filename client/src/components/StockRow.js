@@ -5,6 +5,7 @@ import '../css/StockRow.css';
 const StockRow = ({ stock }) => {
   const [currentPrice, setCurrentPrice] = useState(parseFloat(stock.price)); // Ensure initial price is a float
   const [currentQuantity, setCurrentQuantity] = useState(stock.quantity);
+  const [sellQuantity, setSellQuantity] = useState(1); // State for input quantity
   const [sellSuccess, setSellSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -38,15 +39,20 @@ const StockRow = ({ stock }) => {
       const storageUser = JSON.parse(localStorage.getItem('user'));
       const userId = storageUser.user_id;
 
+      if (sellQuantity > currentQuantity) {
+        setErrorMessage('Cannot sell more shares than you own.');
+        return;
+      }
+
       const response = await axios.post('http://localhost:5000/api/sellStock', {
         user_id: userId,
         symbol: symbol,
         curr_price: currentPrice,
-        quantity: 1, // Selling 1 share
+        quantity: sellQuantity, // Sell the specified quantity
       });
 
       if (response.data.success) {
-        setCurrentQuantity((prev) => prev - 1);
+        setCurrentQuantity((prev) => prev - sellQuantity);
         setSellSuccess(true);
         setErrorMessage('');
       } else {
@@ -60,6 +66,11 @@ const StockRow = ({ stock }) => {
     }
   };
 
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setSellQuantity(value > 0 ? value : 1); // Ensure quantity is at least 1
+  };
+
   return (
     <li className="StockRow">
       <div className="StockRowInfo">
@@ -70,6 +81,17 @@ const StockRow = ({ stock }) => {
         <span className="StockRowTotalValue">
           Total: ${(currentQuantity * currentPrice).toFixed(2)}
         </span>
+      </div>
+      <div className="StockRowActions">
+        <label htmlFor={`sell-quantity-${symbol}`}>Quantity:</label>
+        <input
+          id={`sell-quantity-${symbol}`}
+          type="number"
+          value={sellQuantity}
+          onChange={handleQuantityChange}
+          min="1"
+          max={currentQuantity}
+        />
         <button
           className="SellStockButton"
           onClick={handleSellStock}
