@@ -64,7 +64,6 @@ const addWatchlist = async (req, res) => {
 const removeWatchlist = async (req, res) => {
     try {
         const { user_id, stock_symbol } = req.body;
-        
         if (!user_id) {
             return res.status(400).json({ error: 'Invalid user ID' });
         } else if (!stock_symbol) {
@@ -73,7 +72,6 @@ const removeWatchlist = async (req, res) => {
 
         // Get the stock_id from the stocks table
         const stockResult = await pool.query('SELECT stock_id FROM stocks WHERE symbol = $1', [stock_symbol]);
-        
         if (stockResult.rows.length === 0) {
             return res.status(404).json({ error: `Stock symbol ${stock_symbol} not found` });
         }
@@ -87,7 +85,10 @@ const removeWatchlist = async (req, res) => {
             return res.status(404).json({ error: 'Watchlist entry not found for this user and stock' });
         }
         
-        res.status(200).send({ message: `Stock ${stock_symbol} removed from watchlist for user ${user_id}` });
+        res.status(200).send({ 
+            message: `Stock ${stock_symbol} removed from watchlist for user ${user_id}`,
+            success: 'true'
+        });
     } catch (err) {
         console.error('Error removing stock from watchlist:', err.message);
         res.status(500).json({ error: 'Internal Server Error' });

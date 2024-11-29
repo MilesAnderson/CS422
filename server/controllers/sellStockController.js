@@ -63,7 +63,7 @@ const sellStock = async (req,res)=>{
         res.status(200).json({
             message: `Successfully sold ${quantity} shares of ${symbol}`,
             balance: changeBalRes.data.data,     
-            success: 'true'                              //The new balance
+            success: 'true'
         });
     } catch (err) {
         console.error("Something when wrong when selling stock:", err.message);

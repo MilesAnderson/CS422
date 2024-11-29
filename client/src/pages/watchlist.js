@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import WatchlistRow from '../components/WatchlistRow';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
 
@@ -48,6 +49,10 @@ const Watchlist = () => {
     fetchWatchlist();
   }, []);
 
+  const handleRemoveStock = (symbol) => {
+    setWatchlist((prev) => prev.filter((stock) => stock.symbol !== symbol));
+  };
+
   if (loading) {
     return (
       <>
@@ -75,18 +80,15 @@ const Watchlist = () => {
       <NavBar />
       <div className="watchlist-container">
         <h1>Your Watchlist</h1>
-        <ul>
-          {watchlist.length === 0 ? (
-            <p>No stocks in your watchlist.</p>
-          ) : (
-            watchlist.map(({ symbol, price }, index) => (
-              <li key={index}>
-                <span>{symbol}: </span>
-                <span>${price !== "N/A" ? parseFloat(price).toFixed(2) : price}</span>
-              </li>
-            ))
-          )}
-        </ul>
+        {watchlist.length === 0 ? (
+          <p>No stocks in your watchlist.</p>
+        ) : (
+          <ul>
+            {watchlist.map((stock, index) => (
+              <WatchlistRow key={index} stock={stock} onRemove={handleRemoveStock} />
+            ))}
+          </ul>
+        )}
       </div>
     </>
   );
