@@ -12,21 +12,23 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const userRef = useRef(JSON.parse(localStorage.getItem('user')));
-  const user = userRef.current || {};
+  const user = userRef.current;
+
+  // Redirect to authentication if user is not logged in
+  useEffect(() => {
+    if (!user || !user.user_id) {
+      navigate('/authentication');
+    }
+  }, [navigate, user]);
 
   // Fetch portfolio data
   useEffect(() => {
     const fetchPortfolioData = async () => {
-      const currentUser = userRef.current;
-      if (!currentUser.user_id) {
-        navigate('/authentication');
-        return;
-      }
       try {
         const response = await fetch('http://localhost:5000/api/getPortfolioStocks', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: currentUser.user_id }),
+          body: JSON.stringify({ user_id: user.user_id }),
         });
 
         if (response.ok) {
@@ -34,12 +36,12 @@ const Profile = () => {
           setPortfolio(data);
 
           // Fetch total worth, liquid money, and asset money
-          fetchFinancialData(currentUser.user_id);
+          fetchFinancialData(user.user_id);
         } else {
-          console.error("Failed to fetch portfolio:", response.statusText);
+          throw new Error("Failed to fetch portfolio data.");
         }
       } catch (err) {
-        console.error("Error while fetching portfolio data:", err.message);
+        console.error(err.message);
         setError('Failed to load your portfolio. Please try again later.');
       } finally {
         setLoading(false);
@@ -60,16 +62,18 @@ const Profile = () => {
           setLiquidMoney(data.balance || 0); // Liquid money
           setAssetMoney(data.assetWorth || 0); // Asset money
         } else {
-          console.error("Failed to fetch financial data:", response.statusText);
+          throw new Error("Failed to fetch financial data.");
         }
       } catch (err) {
-        console.error("Error while fetching financial data:", err.message);
+        console.error(err.message);
         setError('Failed to calculate financial data.');
       }
     };
 
-    fetchPortfolioData();
-  }, [navigate]);
+    if (user && user.user_id) {
+      fetchPortfolioData();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -81,7 +85,7 @@ const Profile = () => {
   }
 
   if (!user) {
-    return null;
+    return null; // This will redirect to authentication earlier, so this case may not occur
   }
 
   return (

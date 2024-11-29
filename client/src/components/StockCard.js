@@ -55,6 +55,9 @@ const StockCard = ({ stocks }) => {
       if (response.data.success) {
         setBuySuccess(true);
         setErrorMessage('');
+        
+        // Add the stock to the watchlist after a successful purchase
+        await handleAddWatchlist();
       } else {
         setErrorMessage('Error processing the purchase');
       }
