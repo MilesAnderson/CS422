@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import StockRow from '../components/StockRow';
 
+import styles from "../css/Profile.module.css";
+
 const Profile = () => {
   const navigate = useNavigate();
   const [portfolio, setPortfolio] = useState([]);
@@ -89,41 +91,79 @@ const Profile = () => {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <NavBar />
-      <div className="ProfileWrapper">
+      <div className={styles.ProfileWrapper}>
         {error ? (
           <div className="ErrorMessage">{error}</div>
         ) : (
           <>
-            <h1>Welcome, {user.username}!</h1>
-            <button className="SubmitButton" onClick={handleLogout}>Logout</button>
+            <div className={styles.overview}>
+              <div className={styles.ProfileCredentials}>
+                <h1 className={styles.Heading}>Profile Overview</h1>
+                <p className={styles.UserInfo}><strong>Username: </strong></p>
+                <p className={styles.Username}>{user.username}</p>
+            
+                <div className={styles.ButtonWrapper}>
+                  <button className={styles.SubmitButton} onClick={handleLogout}>Logout</button>
+                </div>
+              </div>
+              
+              {/* Display financial breakdown */}
+              <div className={styles.FinancialSummary}>
+                <h3 className={styles.Heading}>Financial Overview:</h3>
+                <div className={styles.InfoWrapper}>
+                  <div className={styles.LiquidMoney}>
+                    <p className={styles.FinanceInfo}><strong>Liquid Money</strong></p>
+                    <p>${liquidMoney.toFixed(2)}</p>
+                  </div>
 
-            <h2>Your Portfolio:</h2>
+                  <div className={styles.AssetMoney}>
+                    <p className={styles.FinanceInfo}><strong>Asset Money</strong></p>
+                    <p>${assetMoney.toFixed(2)}</p>
+                  </div>
 
-            {/* Display financial breakdown */}
-            <div className="FinancialSummary">
-              <h3>Financial Overview:</h3>
-              <p>Liquid Money: ${liquidMoney.toFixed(2)}</p>
-              <p>Asset Money: ${assetMoney.toFixed(2)}</p>
-              <p>Total Money: ${totalWorth.toFixed(2)}</p>
+                  <div className={styles.TotalMoney}>
+                    <p className={styles.FinanceInfo}><strong>Total Money</strong></p>
+                    <p>${totalWorth.toFixed(2)}</p>
+                  </div>
+                </div>
+              </div>
+
             </div>
-
-            {portfolio.length > 0 ? (
-              <>
-                <ul className="PortfolioList">
-                  {portfolio.map((stock, index) => (
-                    <StockRow key={index} stock={stock} />
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p>Your portfolio is empty or could not be loaded.</p>
-            )}
+            <div className={styles.PortfolioWrapper}>
+              <div className={styles.Portfolio}>
+                <h2 className={styles.PortfolioHeading}>Your Portfolio</h2>
+                <div className={styles.StockTableWrapper}>
+                  {portfolio.length > 0 ? (
+                  <table className={styles.StockTable}>
+                    <thead>
+                      <tr>
+                        <th className={styles.Symbol}>Symbol</th>
+                        <th className={styles.CompanyName}>Company Name</th>
+                        <th className={styles.Quantity}>Quantity</th>
+                        <th className={styles.CurrPrice}>Current Price</th>
+                        <th className={styles.TotalValue}>Total Value</th>
+                        <th className={styles.Actions}>Actions</th>
+                        <th className={styles.SellBtn}>Sell Stock</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {portfolio.map((stock, index) => (
+                        <StockRow key={index} stock={stock} />
+                      ))}
+                    </tbody>
+                  </table>
+                  ) : (
+                    <p className={styles.Empty}>Your portfolio is empty or could not be loaded.</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

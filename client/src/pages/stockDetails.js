@@ -4,9 +4,8 @@ import axios from 'axios';
 
 import StockCard from "../components/StockCard";
 import NavBar from '../components/NavBar';
-import '../css/App.css';
 
-
+import styles from "../css/StockCard.module.css";
 function StockDetails(){
   const { symbol } = useParams();
   console.log("stock is", symbol);
@@ -38,7 +37,7 @@ function StockDetails(){
   }, [symbol]);
 
   return (
-    <>
+    <div className={styles.stockDisplayWrapper}>
       <NavBar />
       {/* Display loading, stock data, or a no-data message based on state */}
       {loading ? (
@@ -46,9 +45,9 @@ function StockDetails(){
       ) : stocks ? (
         <StockCard stocks={stocks} />
       ) : (
-        <p>No data available</p>
+        <p className={styles.NoData}>No data available</p>
       )}
-    </>
+    </div>
   )
 }
 

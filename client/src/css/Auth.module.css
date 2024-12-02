@@ -99,6 +99,10 @@
   position: relative;
 }
 
+.AuthInfo:hover{
+  cursor: pointer;
+}
+
 .AuthInfo:hover::after {
   content: ''; 
   position: absolute; 

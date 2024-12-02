@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../css/StockRow.css';
+import styles from '../css/StockRow.module.css';
 
 const StockRow = ({ stock }) => {
   const [currentPrice, setCurrentPrice] = useState(parseFloat(stock.price)); // Ensure initial price is a float
@@ -73,38 +73,51 @@ const StockRow = ({ stock }) => {
     setSellQuantity(value > 0 ? value : 1); // Ensure quantity is at least 1
   };
 
+  console.log(companyName);
   return (
-    <li className="StockRow">
-      <div className="StockRowInfo">
-        <span className="StockRowSymbol">{symbol}</span>
-        <span className="StockRowCompany">{companyName}</span>
-        <span className="StockRowQuantity">{currentQuantity} shares</span>
-        <span className="StockRowPrice">${parseFloat(currentPrice).toFixed(2)}</span>
-        <span className="StockRowTotalValue">
-          Total: ${(currentQuantity * currentPrice).toFixed(2)}
-        </span>
+    <>
+      <tr>
+        <td className={styles.StockRowSymbol}>{symbol}</td>
+        <td className={styles.StockRowCompany}>{companyName}</td>
+        <td className={styles.StockRowQuantity}>{currentQuantity} shares</td>
+        <td className={styles.StockRowPrice}>${parseFloat(currentPrice).toFixed(2)}</td>
+        <td className={styles.StockRowTotalValue}>
+            ${(currentQuantity * currentPrice).toFixed(2)}
+        </td>
+        <td className={styles.StockRowActions}>
+          <label htmlFor={`sell-quantity-${symbol}`}>Quantity:</label>
+          <input
+            id={`sell-quantity-${symbol}`}
+            type="number"
+            value={sellQuantity}
+            onChange={handleQuantityChange}
+            min="1"
+            max={currentQuantity}/>
+        </td>
+        <td>
+          <button
+            className={styles.SellStockButton}
+            onClick={handleSellStock}
+            disabled={currentQuantity <= 0}>
+            Sell Stock
+          </button>
+        </td>
+      </tr>
+      <div className={styles.AlertWrapper}>
+        {/* Alert Component */}
+        {sellSuccess && (
+          <div className={styles.Alert} role="alert">
+            Stock sold successfully!
+          </div>
+        )}
+        {errorMessage && (
+          <div className={`${styles.Alert} ${styles.Error}`} role="alert">
+            {errorMessage}
+          </div>
+        )}
       </div>
-      <div className="StockRowActions">
-        <label htmlFor={`sell-quantity-${symbol}`}>Quantity:</label>
-        <input
-          id={`sell-quantity-${symbol}`}
-          type="number"
-          value={sellQuantity}
-          onChange={handleQuantityChange}
-          min="1"
-          max={currentQuantity}
-        />
-        <button
-          className="SellStockButton"
-          onClick={handleSellStock}
-          disabled={currentQuantity <= 0}
-        >
-          Sell Stock
-        </button>
-      </div>
-      {sellSuccess && <p className="SuccessMessage">Stock sold successfully!</p>}
-      {errorMessage && <p className="ErrorMessage">{errorMessage}</p>}
-    </li>
+    </>
+
   );
 };
 

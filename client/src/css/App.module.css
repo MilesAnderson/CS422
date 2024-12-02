@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+/* Reset to ensure the body takes up full screen */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  /* overflow-x: hidden; */
+}
+
+.App {
+  background-color: #121212;
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: #f1f1f1;
+  height: 100vh;
+}
+
+
+.Title {
+  text-align: center;
+  margin: 2rem 1rem;
+}
+
+.SearchBarContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; 
+}
+
+.SearchButton {
+  background-color: transparent;
+  border:none;
+}
+
+.SearchBar {
+  padding: 5px 0;
+  width: 70%; 
+  border: none;
+  border-bottom: 2px solid #f1f1f1; 
+  background-color: inherit; 
+  font-size: 16px;
+  outline: none;
+  letter-spacing: 2px;
+  color: #f1f1f1;
+}
+
+.SearchBar::placeholder {
+  color: #f1f1f1; 
+  letter-spacing: px;
+}
+
+.SearchIcon {
+  width: 30px; 
+  height: auto;
+  margin-left: 10px;
+}

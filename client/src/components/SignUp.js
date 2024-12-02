@@ -50,7 +50,7 @@ const SignUp = ({ toggleForm }) => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="eg. JohnDoe_14"
+              placeholder="Username"
               required
             />
           </div>
@@ -60,7 +60,7 @@ const SignUp = ({ toggleForm }) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="eg. JohnDoe@gmail.com"
+              placeholder="Email"
               required
             />
           </div>
@@ -70,7 +70,7 @@ const SignUp = ({ toggleForm }) => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
+              placeholder="Password"
               required
             />
           </div>

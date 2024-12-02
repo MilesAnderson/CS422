@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import SearchIcon from "./img/SearchIcon.png";
-import './css/App.css';
-import './css/About.css';
-import './css/SearchBar.css';
+import styles from './css/App.module.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './components/NavBar';
@@ -49,21 +47,21 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <NavBar />
-      <header className="App-header">
-        <h1 className="Title">Search up a stock!</h1>
+      <header className={styles.AppHeader}>
+        <h1 className={styles.Title}>Search up a stock!</h1>
       </header>
-      <form className="SearchBarContainer" onSubmit={handleSubmit}>
+      <form className={styles.SearchBarContainer} onSubmit={handleSubmit}>
         <input
-          className="SearchBar"
+          className={styles.SearchBar}
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Search for a stock..."
           />
-        <button type="submit" className="SearchButton">
-          <img src={SearchIcon} alt="Search Icon"  />
+        <button type="submit" className={styles.SearchButton}>
+          <img className={styles.SearchIcon} src={SearchIcon} alt="Search Icon"  />
         </button>
       </form> 
       {/* Display loading, stock data, or a no-data message based on state */}

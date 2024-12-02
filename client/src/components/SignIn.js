@@ -47,7 +47,7 @@ const SignIn = ({ toggleForm }) => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="eg. Johndoe@example.com"
+              placeholder="Email"
               required
             />
           </div>
@@ -57,7 +57,7 @@ const SignIn = ({ toggleForm }) => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
+              placeholder="Password"
               required
             />
           </div>

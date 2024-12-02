@@ -3,6 +3,8 @@ import WatchlistRow from '../components/WatchlistRow';
 import NavBar from '../components/NavBar';
 import axios from 'axios';
 
+import styles from "../css/WatchList.module.css";
+
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,7 +55,6 @@ const Watchlist = () => {
   const handleRemoveStock = (symbol) => {
     setWatchlist((prev) => prev.filter((stock) => stock.symbol !== symbol));
   };
-
   if (loading) {
     return (
       <>
@@ -69,7 +70,7 @@ const Watchlist = () => {
     return (
       <>
         <NavBar />
-        <div className="watchlist-container">
+        <div className={styles.watchlistContainer}>
           <h1>Error: {error}</h1>
         </div>
       </>
@@ -77,21 +78,33 @@ const Watchlist = () => {
   }
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <NavBar />
-      <div className="watchlist-container">
-        <h1>Your Watchlist</h1>
-        {watchlist.length === 0 ? (
-          <p>No stocks in your watchlist.</p>
-        ) : (
-          <ul>
-            {watchlist.map((stock, index) => (
-              <WatchlistRow key={index} stock={stock} onRemove={handleRemoveStock} />
-            ))}
-          </ul>
-        )}
+      <div className={styles.watchlistWrapper}>
+        <div className={styles.watchlistContainer}>
+          <h1 className={styles.watchlistHeading}>Your Watchlist</h1>
+          {watchlist.length === 0 ? (
+            <p>No stocks in your watchlist.</p>
+          ) : (
+            <div className={styles.watchlistTable}>
+              <table>
+                <thead>
+                  <th className={styles.headerRow}>Symbol</th>
+                  <th className={styles.headerRow}>Company Name</th>
+                  <th className={styles.headerRow}>Current Price</th>
+                  <th className={styles.headerRow}>Action</th>
+                </thead>
+                <tbody>
+                  {watchlist.map((stock, index) => (
+                    <WatchlistRow key={index} stock={stock} onRemove={handleRemoveStock} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

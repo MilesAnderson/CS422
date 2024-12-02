@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import styles from "../css/WatchList.module.css";
+
 const WatchlistRow = ({ stock, onRemove }) => {
   const [currentPrice, setCurrentPrice] = useState("Loading..."); // Initial state for price
   const { symbol, companyName } = stock;
@@ -50,16 +52,14 @@ const WatchlistRow = ({ stock, onRemove }) => {
   };
 
   return (
-    <li className="WatchlistRow">
-      <div className="WatchlistRowInfo">
-        <span className="WatchlistRowSymbol">{symbol}: </span>
-        <span className="WatchlistRowCompany">{companyName}: </span>
-        <span className="WatchlistRowPrice">Current Price: ${currentPrice}</span>
-        <button className="RemoveFromWatchlistButton" onClick={handleRemoveFromWatchlist}>
+    <tr className={styles.WatchlistRow}>
+        <td className="WatchlistRowSymbol">{symbol}</td>
+        <td className="WatchlistRowCompany">{companyName}</td>
+        <td className="WatchlistRowPrice">${currentPrice}</td>
+        <button className={styles.RemoveFromWatchlistButton} onClick={handleRemoveFromWatchlist}>
           Remove
         </button>
-      </div>
-    </li>
+    </tr>
   );
 };
 

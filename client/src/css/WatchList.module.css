@@ -1,0 +1,57 @@
+.wrapper {
+  height: 100vh;
+  width: 100%;
+  background-color: #121212;
+}
+
+.watchlistContainer {
+  width: 100%;
+  border-radius: 25px;
+  border: 2px solid grey;
+  background-color: #1f1f1f;   
+  margin: 2rem;
+}
+
+.watchlistWrapper {
+  display: flex;
+
+}
+
+.watchlistTable {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 2rem;
+}
+
+.watchlistHeading {
+  font-size: 2rem;
+  font-weight: 800;
+  padding: 1rem;
+  border-bottom: 1px solid #f1f1f1;
+  background: linear-gradient(to right, #b2c6db, #ba86fc); /* Gradient colors */
+  -webkit-background-clip: text; /* Clips the background to the text */
+  background-clip: text;
+  color: transparent;
+}
+
+.headerRow {
+  padding: .75rem 4rem;
+}
+
+.RemoveFromWatchlistButton {
+  color: #15273c;
+  font-weight: bold;
+  background-color: #98BAE3;
+  border-radius: 25px;
+  border: none;
+  padding: 0.25em 0.75em;
+  margin:  1rem 2rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.RemoveFromWatchlistButton:hover {
+  background-color: #5981B1;
+  transform: scale(1.02);
+}
