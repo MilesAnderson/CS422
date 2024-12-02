@@ -73,3 +73,40 @@ The methods associated with this type of API are:
 - signUp
 - getPortfolioStocks (within controllers/viewPortfolioController.js)
 
+
+## The Database
+
+### Stock Table
+
+A set of existing unique stocks within all portfolios and watchlists of registered traders. Each record
+contains of a stock_id for identification, a symbol representing the stock's ticker, curr_price representing 
+the most recently known price of the stock, as well as a timestamp of when the record was created.
+
+### Users Table
+
+Stores each registered trader and their vital information. Each record consists of a user_id for identification,
+a username, a unique email, a password, and a timestamp of when the record was created. The password is encrypted
+for security purposes
+
+### Portfolios Table
+
+Stores the portfolios of all registered traders. These records contain a portfolio_id for identification, a 
+user_id to reference the user associated with the portfolio, a balance for the ammount of uninvested money within
+the account, as well as a timestamp of when the record was created.
+
+### Trades Table
+
+Stores the trade history of all registered traders. Each record consists of a trade_id for identification, a
+portfolio_id to reference the portfolio associated with the trade, symbol representing the stock involved in 
+the trade, trade_type which is set to either 'BUY' or 'SELL', the quantity of shares involved in the trade, the
+price_per_share of the stock, as well as a timestamp for when the trade was enacted. Notably, the trades table is
+traversed to calculate the current shares within a portfolio. The combination of the real-time prices of these 
+shares alongside the balance left in the portfolio calculates a trader's net worth.
+
+### Watchlists Table
+
+Stores all stocks within the watchlists of all registered traders. These records contain a watchlist_id, a name
+representing the symbol of the stock, a user_id to reference the user associated, a stock_id to reference the stock
+associated, and a timestamp of when the stock was added to the user's watchlist. Both name and user_id are used to
+identify a specific stock within a specific user's watchlist.
+
