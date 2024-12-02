@@ -8,7 +8,7 @@ import profile from "../img/profile.png";
 import styles from "../css/NavBar.module.css";
 
 function NavBar() {
-  const [inputValue, setInputValue] = useState("GOOG");
+  const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ function NavBar() {
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
-          placeholder="eg. GOOG"
+          placeholder="Search up a stock here!"
           />
       </form>
       <div className={styles.profile}>

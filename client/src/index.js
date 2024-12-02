@@ -7,6 +7,7 @@ import Authentication from './pages/authentication';
 import About from './pages/about';
 import Watchlist from './pages/watchlist';
 import Profile from './pages/profile'
+import StockDetails from './pages/stockDetails';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -21,6 +22,7 @@ root.render(
           <Route path="about" element={<About />} />
           <Route path="watchlist" element={<Watchlist />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="stockDetails/:symbol" element={<StockDetails />} />
         </Route>
       </Routes>
     </BrowserRouter>
