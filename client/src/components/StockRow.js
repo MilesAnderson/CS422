@@ -5,11 +5,12 @@ import '../css/StockRow.css';
 const StockRow = ({ stock }) => {
   const [currentPrice, setCurrentPrice] = useState(parseFloat(stock.price)); // Ensure initial price is a float
   const [currentQuantity, setCurrentQuantity] = useState(stock.quantity);
+  const [companyName, setCompanyName] = useState("");
   const [sellQuantity, setSellQuantity] = useState(1); // State for input quantity
   const [sellSuccess, setSellSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const { symbol, companyName } = stock;
+  const { symbol } = stock;
 
   // Fetch the latest stock price
   useEffect(() => {
@@ -18,6 +19,7 @@ const StockRow = ({ stock }) => {
         const response = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
         if (response.data && response.data.data.price) {
           setCurrentPrice(parseFloat(response.data.data.price)); // Ensure updated price is a float
+          setCompanyName(response.data.data.companyName);
         } else {
           console.warn(`No price data returned for ${symbol}`);
         }

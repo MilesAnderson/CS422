@@ -52,7 +52,7 @@ const WatchlistRow = ({ stock, onRemove }) => {
   return (
     <li className="WatchlistRow">
       <div className="WatchlistRowInfo">
-        <span className="WatchlistRowSymbol">{symbol}</span>
+        <span className="WatchlistRowSymbol">{symbol}: </span>
         <span className="WatchlistRowCompany">{companyName}: </span>
         <span className="WatchlistRowPrice">Current Price: ${currentPrice}</span>
         <button className="RemoveFromWatchlistButton" onClick={handleRemoveFromWatchlist}>

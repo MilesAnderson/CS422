@@ -5,6 +5,8 @@ import { authenticateUser } from '../services/userService';
 import EmailIcon from "../img/EmailIcon.png";
 import PasswordIcon from "../img/PasswordIcon.png";
 
+import styles from '../css/Auth.module.css';
+
 const SignIn = ({ toggleForm }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,37 +33,41 @@ const SignIn = ({ toggleForm }) => {
   };
 
   return (
-    <div className="AuthWrapper">
-      <div className="userForm">
-        <h1 className="AuthTitle">Sign In</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="AuthFormInput">
-            <img src={EmailIcon} alt="Email Icon" className="AuthIcon" />
+    <div className= { styles.AuthWrapper }>
+      <div className={styles.leftPanel}>
+        <h1 className={styles.heading}>Moo-Deng Capital</h1>
+        <p className={styles.message}>Welcome Back!</p>
+      </div>
+      <div className={ styles.userForm }>
+        <h1 className={styles.AuthTitle }>Sign In</h1>
+        <form className={styles.formBox} onSubmit={handleSubmit}>
+          <div className={ styles.AuthFormInput }>
+            <img src={EmailIcon} alt="Email Icon" className={styles.AuthIcon } />
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
+              placeholder="eg. Johndoe@example.com"
               required
             />
           </div>
-          <div className="AuthFormInput">
-            <img src={PasswordIcon} alt="Password Icon" className="AuthIcon" />
+          <div className= {styles.AuthFormInput}>
+            <img src={PasswordIcon} alt="Password Icon" className={styles.AuthIcon} />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
+              placeholder="password"
               required
             />
           </div>
-          {error && <p className="ErrorMessage">{error}</p>}
-          <div className="ButtonWrapper">
-            <button type="submit" className="SubmitButton" disabled={loading}>
+          {error && <p className={styles.ErrorMessage}>{error}</p>}
+          <div className={styles.ButtonWrapper}>
+            <button type="submit" className={styles.SubmitButton} disabled={loading}>
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </div>
-          <p onClick={toggleForm} className="AuthInfo">Don't have an account? Sign up</p>
+          <p onClick={toggleForm} className={styles.AuthInfo}>New to Moo-Deng? Sign up</p>
         </form>
       </div>
     </div>

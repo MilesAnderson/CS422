@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import SearchIcon from "./img/SearchIcon.png";
 import './css/App.css';
-import './css/NavBar.css';
-import './css/Auth.css';
 import './css/About.css';
 import './css/SearchBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './components/NavBar';
-import SearchIcon from './img/SearchIcon.png';
 import StockCard from './components/StockCard';
 
 function App() {
@@ -63,12 +61,11 @@ function App() {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Search for a stock..."
-        />
+          />
         <button type="submit" className="SearchButton">
-          <img src={SearchIcon} alt="Search Icon" className="SearchIcon" />
+          <img src={SearchIcon} alt="Search Icon"  />
         </button>
-      </form>
-
+      </form> 
       {/* Display loading, stock data, or a no-data message based on state */}
       {loading ? (
         <p>Loading...</p>
@@ -76,7 +73,8 @@ function App() {
         <StockCard stocks={stocks} />
       ) : (
         <p>No data available</p>
-      )}
+      )} 
+  
     </div>
   );
 }

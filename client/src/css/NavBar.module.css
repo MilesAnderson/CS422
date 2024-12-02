@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap');
+
+.navBar {
+  font-family: "Parkinsans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  color: #f1f1f1;
+  background-color: #121212;
+  display: flex;
+  justify-content: space-between;
+  height: 5rem;
+  white-space: nowrap;
+  border-bottom: 1px solid #f1f1f1;
+  width: 100%;
+}
+
+.navBarMainContent {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navBarMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 40%;
+}
+
+.logo {
+  font-size: 1.8rem;
+  color: #98BAE3;
+  text-decoration: none;
+  padding: 0 1rem;
+  white-space: nowrap;
+  margin: auto 0;
+}
+
+.logo::before {
+  content: "Moo-Deng Capital";
+}
+
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileIcon {
+  height: 45px;
+}
+
+.navbarItem {
+  font-size: 1.34em;
+  padding: 0 .5rem;
+  text-decoration: none;
+  color: #f1f1f1;
+}
+
+.navbarItem:hover, .hidden:hover {
+  color: #98BAE3;
+}
+
+.hamburgerContainer {
+  display: none;
+  cursor: pointer;
+  margin: auto 0;
+}
+
+.hidden {
+  display: none;
+  font-size: 1.34em;
+  text-decoration: none;
+  color: #f1f1f1;
+  margin: 1rem;
+}
+
+.SearchBarContainer {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  align-items: center;
+  border-radius: 15px;
+  margin: 0 2rem;
+}
+
+.SearchBar {
+  width: 100%;
+  color: #f1f1f1;
+  background-color: #5e5d5d;
+  height: 55%;
+  border-radius: 15px;
+  border: none;
+  padding-left: 1rem;
+}
+
+.SearchBar::placeholder {
+  color: white;
+}
+
+.SearchBar:focus {
+  border: none;
+}
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .logo::before {
+      content: "MooDeng";
+  }
+
+  .hidden {
+    display: block;
+  }
+
+  .smHidden {
+    display: none;
+  }
+  
+  .navBarMenu {
+    position: fixed; 
+    top: 5rem;
+    left: -100%;
+    flex-direction: column;
+    background-color: #fff;
+    text-align: center;
+    transition: 0.3s ease;
+  }
+
+  .navBarMenu.open {
+    left: 0;
+    top: 5rem;
+    width: 100%;
+    background-color: #222226;
+    z-index: 10;
+  }
+
+  .navbarItem {
+    padding: 1.5rem 0;
+  }
+
+  .hamburgerContainer {
+    display: block;
+    cursor: pointer;
+    padding-right: 10px;
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .logo::before {
+    content: "MDC";
+  }
+  .navBarMenu {
+    position: fixed; 
+    left: -100%;
+    flex-direction: column;
+    background-color: #fff;
+    text-align: center;
+    transition: 0.3s ease;
+  }
+  .navBarMenu.open {
+    left: 0;
+    top: 5rem;
+    width: 100%;
+    background-color: #222226;
+    z-index: 10;
+  }
+
+  .navbarItem {
+    padding: 1.5rem 0;
+  }
+
+  .hamburgerContainer {
+    display: block;
+    cursor: pointer;
+    padding-right: 10px;
+  }
+
+
+}

@@ -25,6 +25,7 @@ const Watchlist = () => {
             const priceResponse = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
             return {
               symbol,
+              companyName: priceResponse.data?.data?.companyName,
               price: priceResponse.data?.data?.price || "N/A", // Gracefully handle missing price
             };
           } catch {

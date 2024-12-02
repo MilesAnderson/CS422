@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import '../css/StockCard.css';
+import styles from '../css/StockCard.module.css';
 
 const StockCard = ({ stocks }) => {
   const [buySuccess, setBuySuccess] = useState(false);
@@ -77,20 +77,20 @@ const StockCard = ({ stocks }) => {
   };
 
   return (
-    <div className="StockCardWrapper">
-      <div className="StockCard">
-        <h1 className="StockCardTitle">
-          {companyName} <span className="StockCardSymbol">({symbol})</span>
+    <div className={styles.StockCardWrapper}>
+      <div className={styles.StockCard}>
+        <h1 className={styles.StockCardTitle}>
+          {companyName} <span className={styles.StockCardSymbol}>({symbol})</span>
         </h1>
         
-        <div className="StockFormInput">
+        <div className={styles.StockFormInput}>
           <strong>Timestamp:</strong> <span>{formattedDate}</span>
         </div>
-        <div className="StockFormInput">
+        <div className={styles.StockFormInput}>
           <strong>Price:</strong> <span>${parseFloat(price).toFixed(2)}</span>
         </div>
 
-        <div className="StockFormInput">
+        <div className={styles.StockFormInput}>
           <label htmlFor="quantity"><strong>Quantity:</strong></label>
           <input 
             type="number" 
@@ -100,18 +100,18 @@ const StockCard = ({ stocks }) => {
             min="1"
           />
         </div>
+        <div className={styles.stockButtons}>
+          <button className={styles.BuyStockButton} onClick={handleBuyStock}>
+            Buy Stock
+          </button>
+          <button className={styles.addWatchList} onClick={handleAddWatchlist}>
+            Add to Watchlist
+          </button>
+        </div>
 
-        <button className="BuyStockButton" onClick={handleBuyStock}>
-          Buy Stock
-        </button>
+        {buySuccess && <p className={styles.SuccessMessage}>You have successfully purchased {quantity} shares of {companyName} stock!</p>}
 
-        <button className="addWatchList" onClick={handleAddWatchlist}>
-          Add to Watchlist
-        </button>
-
-        {buySuccess && <p className="SuccessMessage">You have successfully purchased {quantity} shares of {companyName} stock!</p>}
-
-        {errorMessage && <p className="ErrorMessage">{errorMessage}</p>}
+        {errorMessage && <p className={styles.ErrorMessage}>{errorMessage}</p>}
       </div>
     </div>
   );
