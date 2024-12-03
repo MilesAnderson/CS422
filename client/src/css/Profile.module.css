@@ -6,7 +6,6 @@
 }
 
 .ProfileWrapper {
-  height: 30%;
   padding: 2rem .5rem;
 }
 
@@ -14,9 +13,10 @@
   display: flex;
   align-items: center;
   height: 100%;
+  
+  /* Profile Overview Box ----  start ----*/
 }
 
-/* Profile Overview Box ----  start ----*/
 .ProfileCredentials {
   width: 25%;
   border-radius: 25px;
@@ -24,6 +24,7 @@
   background-color: #1f1f1f;
   margin: 1rem;
   height: 100%;
+  min-height: 300px;
 }   
 
 .Heading {
@@ -79,6 +80,7 @@
   border: 2px solid grey;
   background-color: #1f1f1f; 
   margin: 1rem;
+  min-height: 300px;
 }
 
 .InfoWrapper {  

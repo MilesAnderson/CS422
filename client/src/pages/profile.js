@@ -114,17 +114,17 @@ const Profile = () => {
                 <h3 className={styles.Heading}>Financial Overview:</h3>
                 <div className={styles.InfoWrapper}>
                   <div className={styles.LiquidMoney}>
-                    <p className={styles.FinanceInfo}><strong>Liquid Money</strong></p>
+                    <p className={styles.FinanceInfo}><strong>Available Funds</strong></p>
                     <p>${liquidMoney.toFixed(2)}</p>
                   </div>
 
                   <div className={styles.AssetMoney}>
-                    <p className={styles.FinanceInfo}><strong>Asset Money</strong></p>
+                    <p className={styles.FinanceInfo}><strong>Asset Value</strong></p>
                     <p>${assetMoney.toFixed(2)}</p>
                   </div>
 
                   <div className={styles.TotalMoney}>
-                    <p className={styles.FinanceInfo}><strong>Total Money</strong></p>
+                    <p className={styles.FinanceInfo}><strong>Net Worth</strong></p>
                     <p>${totalWorth.toFixed(2)}</p>
                   </div>
                 </div>
