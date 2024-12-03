@@ -1,13 +1,6 @@
 # The Backend
 
-### `node.js` & `npm` Installation
-
-Node.js is a javascript runtime environment that is used to help build web applications. NPM is a common 
-package manager used in conjunction with node.js. Both of these can be installed succinctly for MacOS and 
-Windows using the pre-built installer at [https://nodejs.org/en/download/prebuilt-installer](https://nodejs.org/en/download/prebuilt-installer).
-
-Linux users can install node.js and npm through `nvm` by following and running the commands posted at:
-[https://nodejs.org/en/download/package-manager](https://nodejs.org/en/download/package-manager)
+## Available Scripts
 
 ### `node server.js`
 

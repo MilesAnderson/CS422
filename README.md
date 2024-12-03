@@ -7,16 +7,17 @@ a registered trader, users are provided a clean-slate balance of $10,000 to buil
 
 ## Authors
 
-Miles Anderson, Liam Bouffard, Andrew Chan, Jacob Kolster
-Team: MooDeng
-CS 422, Fall 2024
-12/2/2024
+Miles Anderson, Liam Bouffard, Andrew Chan, Jacob Kolster </br>
+Team: MooDeng </br>
+Class: CS 422, Fall 2024 </br>
+Last Modified: 12/2/2024
 
 ## Installation
 
 ### Requirements
 The project requires these tools:
 * PostgreSQL
+* .env file
 * Node.js
 * Npm (Node Package Manager)
 
@@ -28,6 +29,20 @@ git pull https://github.com/AndrewChan8/CS422/tree/main
 
 ### `PostgreSQL` & Database
 To setup your database, download PostgreSQL from :[https://www.postgresql.org/](https://www.postgresql.org/). Provide a password that you will remember for the superuser `postgres`, and ensure that the port is `5432`. Startup `pgAdmin4` once it is downloaded, and click the drop-down arrow next to `Servers` to enter your password and sign-in as postgres. Double-click on the `Databases` tab under `Servers` and click `Create Database`, name the database `MooDengCapital`. Double-click the `MooDengCapital` directory that now appears, and select `Create Script`. The window on your right should display an SQL script with CREATE DATABASE "MooDengCapital" at the top. Delete all of this code, copy & paste the `tables.sql` file that is provided into the submission documents, and click the `Play` or `Execute Script` button that is above this window. The database and its tables have been created.
+
+### `.env`
+
+Create a file called `.env` in the `server` directory. Write to the file the code below
+```
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=MooDengCaptial
+DB_PASSWORD=______
+DB_PORT=5432
+API_KEY=______
+```
+* `DB_Password` - should be set to the password provided for postgres superuser
+* `API_KEY` - should be set to API key provided in submission
 
 ### `node.js` & `npm` Installation
 
