@@ -1,23 +1,34 @@
-import request from 'supertest';
-import express from 'express';
-import userRoutes from '../routes/userRoutes';
-import { pool } from '../db.js';
-import bcrypt from 'bcrypt';
+/*
+Moo-Deng
+Authors:
+Miles Anderson
+
+Date Created: 14 Nov 2024
+
+Description:
+This file, `userRoutes.test.js`, contains unit tests for the routes defined in `userRoutes.js`. It tests functionality for retrieving, creating, updating, deleting, and authenticating users using a mocked database and hashing library.
+*/
+
+import request from 'supertest'; // Library for testing HTTP endpoints
+import express from 'express'; // Web framework for creating an application
+import userRoutes from '../routes/userRoutes'; // Routes being tested
+import { pool } from '../db.js'; // Mocked database connection
+import bcrypt from 'bcrypt'; // Mocked library for password hashing and comparison
 
 const app = express();
 app.use(express.json()); // Middleware to parse JSON requests
-app.use('/api', userRoutes); // Use the routes as defined in userRoutes.js
+app.use('/api', userRoutes); // Use the routes defined in `userRoutes.js`
 
 // Mock database and bcrypt modules
 jest.mock('../db.js');
 jest.mock('bcrypt');
 
 beforeAll(() => {
-  // Any setup needed before tests run
+  // Setup operations before the tests
 });
 
 afterAll(async () => {
-  await pool.end(); // Close database connection after tests
+  await pool.end(); // Close the database connection after all tests
 });
 
 describe('User Routes', () => {
@@ -56,7 +67,7 @@ describe('User Routes', () => {
       const response = await request(app).post('/api/users').send({
         username: 'newUser',
         email: 'newUser@test.com',
-        password: 'password123'
+        password: 'password123',
       });
 
       expect(response.status).toBe(200);
@@ -74,7 +85,7 @@ describe('User Routes', () => {
       const response = await request(app).post('/api/users').send({
         username: 'newUser',
         email: 'newUser@test.com',
-        password: 'password123'
+        password: 'password123',
       });
 
       expect(response.status).toBe(500);
@@ -89,7 +100,7 @@ describe('User Routes', () => {
 
       const response = await request(app).put('/api/users/1').send({
         name: 'updatedUser',
-        email: 'updatedUser@test.com'
+        email: 'updatedUser@test.com',
       });
 
       expect(response.status).toBe(200);
@@ -105,7 +116,7 @@ describe('User Routes', () => {
 
       const response = await request(app).put('/api/users/1').send({
         name: 'updatedUser',
-        email: 'updatedUser@test.com'
+        email: 'updatedUser@test.com',
       });
 
       expect(response.status).toBe(500);
@@ -142,7 +153,7 @@ describe('User Routes', () => {
 
       const response = await request(app).post('/api/users/authenticate').send({
         email: 'user@test.com',
-        password: 'password123'
+        password: 'password123',
       });
 
       expect(response.status).toBe(200);
@@ -155,7 +166,7 @@ describe('User Routes', () => {
 
       const response = await request(app).post('/api/users/authenticate').send({
         email: 'user@test.com',
-        password: 'wrongPassword'
+        password: 'wrongPassword',
       });
 
       expect(response.status).toBe(400);
@@ -167,7 +178,7 @@ describe('User Routes', () => {
 
       const response = await request(app).post('/api/users/authenticate').send({
         email: 'user@test.com',
-        password: 'password123'
+        password: 'password123',
       });
 
       expect(response.status).toBe(500);

@@ -1,3 +1,14 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 1 Dec 2024
+
+Description:
+This file, `Auth.module.css`, contains the styles for the authentication pages, including SignIn and SignUp forms. It defines the layout, typography, and responsiveness for both desktop and mobile devices.
+*/
+
 .AuthWrapper {
   display: flex;
   justify-content: center; /* Ensure space between the panels */
@@ -86,7 +97,7 @@
   transition: background-color 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-.SubmitButton:Hover {
+.SubmitButton:hover {
   background-color: #5981B1;
 }
 
@@ -99,7 +110,7 @@
   position: relative;
 }
 
-.AuthInfo:hover{
+.AuthInfo:hover {
   cursor: pointer;
 }
 
@@ -113,9 +124,8 @@
   background-color: #ffffff; 
 }
 
-
 @media only screen and (min-width: 769px) and (max-width: 1024px) {
-  .leftPanel{
+  .leftPanel {
     display: none;
   }
   .userForm {
@@ -131,3 +141,4 @@
     width: 70%;
   }
 }
+

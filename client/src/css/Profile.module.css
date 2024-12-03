@@ -1,3 +1,14 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 2 Dec 2024
+
+Description:
+This file, `Profile.module.css`, contains the styles for the Profile component. It defines the layout, typography, and responsive design for displaying user profile and portfolio information, including financial summaries and stock details.
+*/
+
 .wrapper {
   height: 100vh;
   background-color: #121212;
@@ -6,7 +17,6 @@
 }
 
 .ProfileWrapper {
-  height: 30%;
   padding: 2rem .5rem;
 }
 
@@ -14,9 +24,10 @@
   display: flex;
   align-items: center;
   height: 100%;
+  
+  /* Profile Overview Box ----  start ----*/
 }
 
-/* Profile Overview Box ----  start ----*/
 .ProfileCredentials {
   width: 25%;
   border-radius: 25px;
@@ -24,6 +35,7 @@
   background-color: #1f1f1f;
   margin: 1rem;
   height: 100%;
+  min-height: 300px;
 }   
 
 .Heading {
@@ -71,7 +83,7 @@
 
 /* Profile Overview Box ---- end ----*/
 
-/* Financial Overviee ---- start ----*/
+/* Financial Overview ---- start ----*/
 .FinancialSummary {
   width: 100%;
   height: 100%;
@@ -79,6 +91,7 @@
   border: 2px solid grey;
   background-color: #1f1f1f; 
   margin: 1rem;
+  min-height: 300px;
 }
 
 .InfoWrapper {  
@@ -208,3 +221,4 @@ th {
       text-align: center;   
   }
 }
+

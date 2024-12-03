@@ -1,3 +1,14 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 2 Dec 2024
+
+Description:
+This file, `App.module.css`, contains the global styles for the main App component. It includes reset styles for the HTML and body, along with custom styles for the app layout, search bar, and button designs.
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 /* Reset to ensure the body takes up full screen */
@@ -19,7 +30,6 @@ html, body {
   height: 100vh;
 }
 
-
 .Title {
   text-align: center;
   margin: 2rem 1rem;
@@ -34,7 +44,7 @@ html, body {
 
 .SearchButton {
   background-color: transparent;
-  border:none;
+  border: none;
 }
 
 .SearchBar {
@@ -51,7 +61,7 @@ html, body {
 
 .SearchBar::placeholder {
   color: #f1f1f1; 
-  letter-spacing: px;
+  letter-spacing: 1px;
 }
 
 .SearchIcon {
@@ -59,3 +69,4 @@ html, body {
   height: auto;
   margin-left: 10px;
 }
+

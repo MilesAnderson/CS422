@@ -1,35 +1,52 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/*
+Moo-Deng
+Authors:
+Andrew Chan
 
-import Authentication from './pages/authentication';
-import About from './pages/about';
-import Watchlist from './pages/watchlist';
-import Profile from './pages/profile'
-import StockDetails from './pages/stockDetails';
+Date Created: 8 Oct 2024
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+Description:
+This file, `index.js`, is the entry point for the React application. It sets up the ReactDOM render process, integrates React Router for navigation, and initializes routing for the app's pages. It also includes an option to measure app performance using the `reportWebVitals` function.
+*/
 
+import React from 'react'; // Core React library
+import ReactDOM from 'react-dom/client'; // React DOM renderer for modern applications
+import App from './App'; // Root component of the application
+import reportWebVitals from './reportWebVitals'; // Function for measuring web performance
+
+// Importing pages for routing
+import Authentication from './pages/authentication'; // Authentication page component
+import About from './pages/about'; // About page component
+import Watchlist from './pages/watchlist'; // Watchlist page component
+import Profile from './pages/profile'; // Profile page component
+import StockDetails from './pages/stockDetails'; // Stock details page component
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // React Router for navigation
+
+// Create a root for rendering the React app
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render the application
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route>
-          <Route index path="/" element={<App />} />
-          <Route path="authentication" element={<Authentication />} />
-          <Route path="about" element={<About />} />
-          <Route path="watchlist" element={<Watchlist />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="stockDetails/:symbol" element={<StockDetails />} />
+          {/* Define application routes */}
+          <Route index path="/" element={<App />} /> {/* Home route */}
+          <Route path="authentication" element={<Authentication />} /> {/* Authentication route */}
+          <Route path="about" element={<About />} /> {/* About page route */}
+          <Route path="watchlist" element={<Watchlist />} /> {/* Watchlist page route */}
+          <Route path="profile" element={<Profile />} /> {/* Profile page route */}
+          <Route path="stockDetails/:symbol" element={<StockDetails />} /> {/* Dynamic route for stock details */}
         </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// Measure app performance
+// Pass a function to log results (e.g., `reportWebVitals(console.log)`)
+// Or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals(); // Initialize performance reporting
+

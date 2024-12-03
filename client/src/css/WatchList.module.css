@@ -1,3 +1,14 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 2 Dec 2024
+
+Description:
+This file, `WatchList.module.css`, contains the styles for the Watchlist component. It defines the layout, container styling, button design, and other visual elements for displaying the user's stock watchlist.
+*/
+
 .wrapper {
   height: 100vh;
   width: 100%;
@@ -14,7 +25,6 @@
 
 .watchlistWrapper {
   display: flex;
-
 }
 
 .watchlistTable {
@@ -29,8 +39,8 @@
   font-weight: 800;
   padding: 1rem;
   border-bottom: 1px solid #f1f1f1;
-  background: linear-gradient(to right, #b2c6db, #ba86fc); /* Gradient colors */
-  -webkit-background-clip: text; /* Clips the background to the text */
+  background: linear-gradient(to right, #b2c6db, #ba86fc); 
+  -webkit-background-clip: text; 
   background-clip: text;
   color: transparent;
 }
@@ -46,7 +56,7 @@
   border-radius: 25px;
   border: none;
   padding: 0.25em 0.75em;
-  margin:  1rem 2rem;
+  margin: 1rem 2rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -55,3 +65,4 @@
   background-color: #5981B1;
   transform: scale(1.02);
 }
+

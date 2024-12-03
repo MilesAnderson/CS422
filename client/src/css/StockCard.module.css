@@ -1,3 +1,14 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 1 Dec 2024
+
+Description:
+This file, `StockCard.module.css`, contains the styles for the StockCard component. It defines the layout, typography, hover effects, and form input styling for the stock detail card displayed in the application.
+*/
+
 .stockDisplayWrapper {
   height: 100vh;
   background-color: #1f1f1f;
@@ -19,6 +30,7 @@
   font-size: 3rem;
   margin: 3rem 1rem;
 }
+
 .StockCard {
   background-color: #222226;
   padding: 3rem;
@@ -81,6 +93,7 @@
   align-items: center;
   gap: 3rem;
 }
+
 .BuyStockButton, .addWatchList {
   height: 100%;
   padding: 10px;
@@ -112,3 +125,4 @@
   margin-top: 3rem;
   text-align: center;
 }
+

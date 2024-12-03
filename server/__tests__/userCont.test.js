@@ -1,22 +1,34 @@
-//These are only tests for User Controllers, still need to write tests for User Routes
-import { getAllUsers, createUser, updateUser, deleteUser, authenticateUser } from '../controllers/userController';
-import { pool } from '../db.js';
-import bcrypt from 'bcrypt';
+/*
+Moo-Deng
+Authors:
+Miles Anderson
+
+Date Created: 14 Nov 2024
+
+Description:
+This file, `userCont.test.js`, contains unit tests for the functions in `userController.js`. It covers the `getAllUsers`, `createUser`, `updateUser`, `deleteUser`, and `authenticateUser` functions. These tests validate the expected behavior under normal and error conditions using mocked database queries and password hashing.
+*/
+
+// Import dependencies
+import { getAllUsers, createUser, updateUser, deleteUser, authenticateUser } from '../controllers/userController'; // Controller functions under test
+import { pool } from '../db.js'; // Mocked database connection
+import bcrypt from 'bcrypt'; // Mocked library for password hashing
 
 beforeAll(async () => {
-//   Any setup steps, such as initializing the database connection if needed
+  // Optional setup tasks before the tests
 });
 
 afterAll(async () => {
-  await pool.end(); // Close the connection pool
+  await pool.end(); // Close the connection pool after all tests
 });
 
-jest.mock('../db.js'); // Mock the database connection
-jest.mock('bcrypt'); // Mock bcrypt for password hashing
+// Mock dependencies
+jest.mock('../db.js'); // Mock the database module
+jest.mock('bcrypt'); // Mock bcrypt for hashing and comparing passwords
 
 describe('User Controller', () => {
   afterEach(() => {
-    jest.clearAllMocks(); // Clear mocks after each test
+    jest.clearAllMocks(); // Clear all mocks after each test
   });
 
   describe('getAllUsers', () => {
@@ -173,3 +185,4 @@ describe('User Controller', () => {
     });
   });
 });
+

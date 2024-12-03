@@ -1,61 +1,82 @@
-import { pool } from '../db.js'
-import axios from 'axios';
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+Jake Kolster
 
+Date Created: 16 Nov 2024
+
+Description:
+This file, `buyStockController.js`, provides functionality for purchasing stocks. It validates user inputs, checks for sufficient balance in the user's portfolio, updates the portfolio balance, records the transaction, and ensures the stock exists or is updated in the database. This file is apart of the stock system. It houses the functionality for buying a stock.
+*/
+
+import { pool } from '../db.js'; // Database connection pool for querying and updating portfolios
+import axios from 'axios'; // HTTP client for making external API requests
+
+/**
+ * Function: buyStock
+ * Handles the purchase of stocks for a user's portfolio.
+ * Arguments:
+ * - req: The HTTP request object. Should contain `user_id`, `symbol`, `curr_price`, and `quantity` in `req.body`.
+ * - res: The HTTP response object used to send the response back to the client.
+ * Returns:
+ * - A JSON response with the updated balance and a success message if the purchase is successful.
+ */
 const buyStock = async (req, res) => {
   try {
     const { user_id, symbol, curr_price, quantity } = req.body;
 
-    // Validate input
+    // Validate input fields
     if (!user_id || !symbol || !curr_price || !quantity) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    //If valid portfolio_id
-    let result = await pool.query('SELECT * FROM portfolios WHERE user_id=$1', [user_id]);
+    // Retrieve the portfolio for the user
+    const result = await pool.query('SELECT * FROM portfolios WHERE user_id=$1', [user_id]);
     if (result.rows.length === 0) {
       return res.status(400).json({ error: "User not found" });
     }
-    let portfolio_id = result.rows[0].portfolio_id;
+    const portfolio_id = result.rows[0].portfolio_id;
 
-    // Calculate total cost of the stock purchase
+    // Calculate the total cost of the purchase
     const totalCost = curr_price * quantity;
 
-    // Get current balance from the user's portfolio
+    // Check if the user has sufficient balance
     const currentBalance = result.rows[0].balance;
-
-    // Check if the user has enough balance
     if (currentBalance < totalCost) {
       return res.status(400).json({ error: "Insufficient balance" });
     }
 
-    // Deduct the total cost from the user's balance
-    const changeBalRes = await axios.put(`http://localhost:5000/api/portfolios/${portfolio_id}`, { ammount:-totalCost });
-    if (changeBalRes.status==400) {
-      return res.status(400).json({error:"Invalid portfolio_id or ammount"});
+    // Deduct the total cost from the user's portfolio balance
+    const changeBalRes = await axios.put(`http://localhost:5000/api/portfolios/${portfolio_id}`, { ammount: -totalCost });
+    if (changeBalRes.status === 400) {
+      return res.status(400).json({ error: "Invalid portfolio ID or amount" });
     }
 
-    //Add buy transaction
+    // Record the buy transaction
     await axios.post(`http://localhost:5000/api/trades`, {
-      portfolio_id:portfolio_id,
-      symbol:symbol,
-      trade_type:"BUY",
-      quantity:quantity,
-      price_per_share:curr_price
+      portfolio_id,
+      symbol,
+      trade_type: "BUY",
+      quantity,
+      price_per_share: curr_price,
     });
 
-    //Update or Create stock in stocks
-    const stockRes = await axios.get(`http://localhost:5000/api/stock?q=${symbol}`);       //add get stock by symbol
+    // Ensure the stock exists in the database or update its current price
+    const stockRes = await axios.get(`http://localhost:5000/api/stock?q=${symbol}`);
     if (!stockRes.data.symbol) {
-        await axios.post(`http://localhost:5000/api/stock`, {symbol:symbol, curr_price:curr_price});
+      // Add stock if it doesn't exist
+      await axios.post(`http://localhost:5000/api/stock`, { symbol, curr_price });
     } else {
-        await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, {curr_price:curr_price});
+      // Update the stock's current price
+      await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, { curr_price });
     }
 
-    // Send a success response
+    // Respond with success
     res.status(200).json({
       message: `Successfully purchased ${quantity} shares of ${symbol}`,
-      balace : currentBalance-totalCost,
-      success: "true"
+      balance: currentBalance - totalCost,
+      success: "true",
     });
   } catch (err) {
     console.error("Error purchasing stock:", err.message);
@@ -64,3 +85,4 @@ const buyStock = async (req, res) => {
 };
 
 export { buyStock };
+

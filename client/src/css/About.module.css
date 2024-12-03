@@ -1,24 +1,36 @@
+/*
+Moo-Deng
+Authors:
+Andrew Chan
+
+Date Created: 2 Dec 2024
+
+Description:
+This file, `About.module.css`, contains the styles for the About page. It defines the layout, typography, and color scheme for presenting the company’s information and mission in a visually appealing format.
+*/
+
 .AboutWrapper {
-  background-color: #121212;
-  height: 100vh;
-  letter-spacing: 3px;
-  width: 100%;
+  background-color: #121212; /* Dark background for the entire About section */
+  height: 100vh; /* Full viewport height */
+  letter-spacing: 3px; /* Adds spacing between letters for a modern look */
+  width: 100%; /* Full viewport width */
 }
 
 .AboutContainer {
-  padding-top: 3rem;
-  color: #f1f1f1;
-  width: 60%;
-  margin: 0 auto 0 auto;
+  padding-top: 3rem; /* Adds spacing at the top */
+  color: #f1f1f1; /* Light text for readability against dark background */
+  width: 60%; /* Centers content with a fixed width */
+  margin: 0 auto; /* Horizontally centers the container */
 }
 
 .about-container h1 {
-  text-align: center;
-  color: #333;
+  text-align: center; /* Centers the heading text */
+  color: #333; /* Neutral color for the heading */
 }
 
 .about-container p {
-  line-height: 1.6;
-  color: #666;
-  margin-bottom: 15px;
+  line-height: 1.6; /* Improves readability by increasing line spacing */
+  color: #666; /* Softer text color for paragraph content */
+  margin-bottom: 15px; /* Adds spacing between paragraphs */
 }
+

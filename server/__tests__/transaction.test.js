@@ -1,13 +1,25 @@
-import request from 'supertest';
-import { addTrade, deletePortfolioTrades, deleteTrade, getTrade, getPortfolioTrades } from '../controllers/transactionController';
-import { pool } from '../db.js';
+/*
+Moo-Deng
+Authors:
+Miles Anderson
 
-jest.mock('../db.js'); // Mock the database pool
+Date Created: 14 Nov 2024
+
+Description:
+This file, `transaction.test.js`, contains unit tests for the transaction-related functions in the `transactionController.js` file. It covers adding, deleting, and retrieving trades, both for specific trades and portfolios, while handling various edge cases and error conditions.
+*/
+
+// Import dependencies
+import request from 'supertest'; // For testing HTTP endpoints
+import { addTrade, deletePortfolioTrades, deleteTrade, getTrade, getPortfolioTrades } from '../controllers/transactionController'; // Functions under test
+import { pool } from '../db.js'; // Mocked database connection
+
+// Mock the database connection
+jest.mock('../db.js');
 
 describe('Transaction Controller', () => {
-    
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.clearAllMocks(); // Clear all mocks after each test
     });
 
     describe('addTrade', () => {
@@ -15,12 +27,16 @@ describe('Transaction Controller', () => {
             const req = { body: { portfolio_id: 1, symbol: 'AAPL', curr_price: 150, quantity: 10 } };
             const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-            pool.query.mockResolvedValue({ rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }] });
+            pool.query.mockResolvedValue({
+                rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }]
+            });
 
             await addTrade(req, res);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 });
+            expect(res.json).toHaveBeenCalledWith({
+                trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150
+            });
         });
 
         it('should return 400 if portfolio_id is missing', async () => {
@@ -60,7 +76,7 @@ describe('Transaction Controller', () => {
 
     describe('deleteTrade', () => {
         it('should delete a specific trade by id', async () => {
-            const req = { body: { portfolio_id: 1 }, params: { id: 1 } };
+            const req = { params: { id: 1 } };
             const res = { status: jest.fn().mockReturnThis(), send: jest.fn() };
 
             pool.query.mockResolvedValue({ rowCount: 1 });
@@ -72,7 +88,7 @@ describe('Transaction Controller', () => {
         });
 
         it('should return 400 if trade id is missing', async () => {
-            const req = { body: { portfolio_id: 1 }, params: {} };
+            const req = { params: {} };
             const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
             await deleteTrade(req, res);
@@ -84,19 +100,23 @@ describe('Transaction Controller', () => {
 
     describe('getTrade', () => {
         it('should return a specific trade', async () => {
-            const req = { body: { portfolio_id: 1 }, params: { id: 1 } };
+            const req = { params: { id: 1 } };
             const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-            pool.query.mockResolvedValue({ rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }] });
+            pool.query.mockResolvedValue({
+                rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }]
+            });
 
             await getTrade(req, res);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith({ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 });
+            expect(res.json).toHaveBeenCalledWith({
+                trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150
+            });
         });
 
         it('should return 400 if portfolio_id is missing', async () => {
-            const req = { body: {}, params: { id: 1 } };
+            const req = { params: { id: 1 } };
             const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
             await getTrade(req, res);
@@ -111,12 +131,16 @@ describe('Transaction Controller', () => {
             const req = { body: { portfolio_id: 1 } };
             const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
 
-            pool.query.mockResolvedValue({ rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }] });
+            pool.query.mockResolvedValue({
+                rows: [{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }]
+            });
 
             await getPortfolioTrades(req, res);
 
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith([{ trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150 }]);
+            expect(res.json).toHaveBeenCalledWith([{
+                trade_id: 1, portfolio_id: 1, symbol: 'AAPL', quantity: 10, curr_price: 150
+            }]);
         });
 
         it('should return 400 if portfolio_id is missing', async () => {
