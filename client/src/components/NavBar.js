@@ -9,7 +9,7 @@ Description:
 This file, `NavBar.js`, implements the navigation bar component for the application. It provides links to various pages, a stock search bar, and user authentication actions (Sign In/Logout). The component includes a responsive hamburger menu for smaller screens.
 */
 
-import React from 'react'; // React hooks for state and lifecycle management
+import React, { useState, useEffect } from 'react'; // Import useState to manage state
 import { useNavigate, Link } from 'react-router-dom'; // Navigation and linking for React Router
 import Hamburger from 'hamburger-react'; // Hamburger menu for responsive navigation
 
