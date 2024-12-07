@@ -69,7 +69,7 @@ const Watchlist = () => {
 
   useEffect(() => {
     fetchWatchlist(); // Fetch the watchlist on component mount
-  }, []); // Dependency array ensures this runs only once
+  }, [fetchWatchlist]); // Dependency array ensures this runs only once
 
   /**
    * Function: handleRemoveStock
