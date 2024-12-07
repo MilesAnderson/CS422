@@ -18,6 +18,16 @@ dotenv.config(); // Load environment variables from `.env` file
 
 const { Pool } = pkg; // Destructure Pool class from the `pg` package
 
+// Determine the connection string
+const connectionString = process.env.DATABASE_URL || `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+
+// Initialize a connection pool with database configuration
+const pool = new Pool({
+    connectionString, // Use the constructed connection string
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false, // Enable SSL only for hosted environments
+});
+
+/*
 // Initialize a connection pool with database configuration
 const pool = new Pool({
     user: process.env.DB_USER, // Database username from environment variables
