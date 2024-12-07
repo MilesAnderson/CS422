@@ -11,7 +11,9 @@ This file, `userService.js`, contains service functions for user-related operati
 
 import axios from 'axios'; // HTTP client for making API requests
 
-const API_URL = 'http://localhost:5000/api'; // Base URL for the backend API
+// const API_URL = 'http://localhost:5000/api'; // Base URL for the backend API
+// Dynamically determine the base URL for the backend API
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000/api';
 
 /**
  * Function: createUser
