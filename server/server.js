@@ -39,7 +39,7 @@ const port = process.env.PORT || 5000;
 // Dynamically determine allowed origins
 const allowedOrigins = [
   'http://localhost:3000', // Local frontend
-  'https://bright-starburst-73e4f7.netlify.app', // Netlify-hosted frontend
+  'https://moodengcapital.netlify.app/', // Netlify-hosted frontend
 ];
 
 // CORS middleware
