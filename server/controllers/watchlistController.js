@@ -7,20 +7,18 @@ Andrew Chan
 Date Created: 22 Oct 2024
 
 Description:
-This file, `watchlistController.js`, contains functionality to manage user watchlists in a stock-tracking application. It includes methods for adding stocks to a watchlist, removing stocks from a watchlist, and fetching the watchlist for a specific user. The file interacts with a database and an external stock API to ensure accurate stock information is maintained. This file is apart of the watchlist system. It provides the functionality for the watchlist.
+This file, `watchlistController.js`, contains functionality to manage user watchlists in a stock-tracking application. It includes methods for adding stocks to a watchlist, removing stocks from a watchlist, and fetching the watchlist for a specific user. The file interacts with a database and an external stock API to ensure accurate stock information is maintained. This file is part of the watchlist system. It provides the functionality for the watchlist.
 */
 
 import { pool } from '../db.js'; // Database connection pool for querying and updating database tables
 import axios from 'axios'; // HTTP client for making requests to the stock API
 
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
+
 /**
  * Function: addWatchlist
  * Adds a stock to a user's watchlist. It ensures the stock exists in the database and adds it if necessary.
- * Arguments:
- * - req: The HTTP request object. Should contain `watchlist_name`, `user_id`, `stock_ticker`, and `curr_price` in `req.body`.
- * - res: The HTTP response object used to send the response back to the client.
- * Returns:
- * - A JSON response with success or error information, and details of the watchlist entry if successful.
  */
 const addWatchlist = async (req, res) => {
     try {
@@ -32,20 +30,18 @@ const addWatchlist = async (req, res) => {
         }
 
         // Check or update stock information in the database
-        let stockRes = await axios.get(`http://localhost:5000/api/stock?q=${stock_ticker}`); // Fetch stock by symbol
+        let stockRes = await axios.get(`${API_URL}/stock?q=${stock_ticker}`); // Fetch stock by symbol
         if (!stockRes.data.symbol) {
             // Add stock if it doesn't exist
-            await axios.post(`http://localhost:5000/api/stock`, { symbol: stock_ticker, curr_price });
+            await axios.post(`${API_URL}/stock`, { symbol: stock_ticker, curr_price });
         } else {
             // Update stock if it already exists
-            await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, { curr_price });
+            await axios.put(`${API_URL}/stock/${stockRes.data.stock_id}`, { curr_price });
         }
 
         // Retrieve stock ID for further processing
-        stockRes = await axios.get(`http://localhost:5000/api/stock?q=${stock_ticker}`);
+        stockRes = await axios.get(`${API_URL}/stock?q=${stock_ticker}`);
         const stock_id = stockRes.data.stock_id;
-
-        console.log(`addWatchlist/stock_id: ${stock_id}`);
 
         if (!stock_id) {
             return res.status(400).json({ error: 'Invalid stock ID' });
@@ -84,11 +80,6 @@ const addWatchlist = async (req, res) => {
 /**
  * Function: removeWatchlist
  * Removes a stock from a user's watchlist based on the stock symbol.
- * Arguments:
- * - req: The HTTP request object. Should contain `user_id` and `stock_symbol` in `req.body`.
- * - res: The HTTP response object used to send the response back to the client.
- * Returns:
- * - A JSON response indicating success or error.
  */
 const removeWatchlist = async (req, res) => {
     try {
@@ -128,11 +119,6 @@ const removeWatchlist = async (req, res) => {
 /**
  * Function: watchlist
  * Retrieves a user's watchlist, listing all stock symbols.
- * Arguments:
- * - req: The HTTP request object. Should contain `user_id` in `req.params`.
- * - res: The HTTP response object used to send the response back to the client.
- * Returns:
- * - A JSON response containing the user's watchlist or an error if not found.
  */
 const watchlist = async (req, res) => {
     try {
@@ -162,4 +148,3 @@ const watchlist = async (req, res) => {
 };
 
 export { addWatchlist, removeWatchlist, watchlist };
-

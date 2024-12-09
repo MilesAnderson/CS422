@@ -17,6 +17,8 @@ import StockRow from '../components/StockRow'; // Component to display individua
 
 import styles from "../css/Profile.module.css"; // Component-specific CSS styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 /**
  * Component: Profile
  * Displays the user's profile, portfolio, and financial overview.
@@ -45,7 +47,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchPortfolioData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/getPortfolioStocks', {
+        const response = await fetch(`${API_URL}/getPortfolioStocks`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_id: user.user_id }),
@@ -70,7 +72,7 @@ const Profile = () => {
 
     const fetchFinancialData = async (userId) => {
       try {
-        const response = await fetch('http://localhost:5000/api/calcWorth', {
+        const response = await fetch(`${API_URL}/calcWorth`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ user_id: userId }),
@@ -184,4 +186,3 @@ const Profile = () => {
 };
 
 export default Profile; // Export the component
-

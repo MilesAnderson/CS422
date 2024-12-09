@@ -11,9 +11,8 @@ This file, `userService.js`, contains service functions for user-related operati
 
 import axios from 'axios'; // HTTP client for making API requests
 
-// const API_URL = 'http://localhost:5000/api'; // Base URL for the backend API
 // Dynamically determine the base URL for the backend API
-const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
 
 /**
  * Function: createUser
@@ -34,7 +33,7 @@ export const createUser = async (newUser) => {
     return response.data; // Return API response data
   } catch (error) {
     // Throw a specific error message or a generic one if none is provided
-    throw new Error(error.response.data.error || 'Error creating user');
+    throw new Error(error.response?.data?.error || 'Error creating user');
   }
 };
 
@@ -57,7 +56,6 @@ export const authenticateUser = async (credentials) => {
     return response.data; // Return API response data
   } catch (error) {
     // Throw a specific error message or a generic one if none is provided
-    throw new Error(error.response.data.error || 'Error authenticating user');
+    throw new Error(error.response?.data?.error || 'Error authenticating user');
   }
 };
-

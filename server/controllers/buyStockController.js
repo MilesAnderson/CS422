@@ -7,11 +7,14 @@ Jake Kolster
 Date Created: 16 Nov 2024
 
 Description:
-This file, `buyStockController.js`, provides functionality for purchasing stocks. It validates user inputs, checks for sufficient balance in the user's portfolio, updates the portfolio balance, records the transaction, and ensures the stock exists or is updated in the database. This file is apart of the stock system. It houses the functionality for buying a stock.
+This file, `buyStockController.js`, provides functionality for purchasing stocks. It validates user inputs, checks for sufficient balance in the user's portfolio, updates the portfolio balance, records the transaction, and ensures the stock exists or is updated in the database. This file is part of the stock system. It houses the functionality for buying a stock.
 */
 
 import { pool } from '../db.js'; // Database connection pool for querying and updating portfolios
 import axios from 'axios'; // HTTP client for making external API requests
+
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
 
 /**
  * Function: buyStock
@@ -48,13 +51,13 @@ const buyStock = async (req, res) => {
     }
 
     // Deduct the total cost from the user's portfolio balance
-    const changeBalRes = await axios.put(`http://localhost:5000/api/portfolios/${portfolio_id}`, { ammount: -totalCost });
+    const changeBalRes = await axios.put(`${API_URL}/portfolios/${portfolio_id}`, { ammount: -totalCost });
     if (changeBalRes.status === 400) {
       return res.status(400).json({ error: "Invalid portfolio ID or amount" });
     }
 
     // Record the buy transaction
-    await axios.post(`http://localhost:5000/api/trades`, {
+    await axios.post(`${API_URL}/trades`, {
       portfolio_id,
       symbol,
       trade_type: "BUY",
@@ -63,13 +66,13 @@ const buyStock = async (req, res) => {
     });
 
     // Ensure the stock exists in the database or update its current price
-    const stockRes = await axios.get(`http://localhost:5000/api/stock?q=${symbol}`);
+    const stockRes = await axios.get(`${API_URL}/stock?q=${symbol}`);
     if (!stockRes.data.symbol) {
       // Add stock if it doesn't exist
-      await axios.post(`http://localhost:5000/api/stock`, { symbol, curr_price });
+      await axios.post(`${API_URL}/stock`, { symbol, curr_price });
     } else {
       // Update the stock's current price
-      await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, { curr_price });
+      await axios.put(`${API_URL}/stock/${stockRes.data.stock_id}`, { curr_price });
     }
 
     // Respond with success
@@ -85,4 +88,3 @@ const buyStock = async (req, res) => {
 };
 
 export { buyStock };
-

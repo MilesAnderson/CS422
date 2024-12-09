@@ -7,11 +7,14 @@ Jake Kolster
 Date Created: 19 Nov 2024
 
 Description:
-This file, `sellStockController.js`, provides functionality for selling stocks from a user's portfolio. It validates input, ensures the stock exists in the user's portfolio, updates the portfolio balance, records the transaction, and updates stock prices in the database. This file is apart of the stock system. It houses the function used for selling a stock.
+This file, `sellStockController.js`, provides functionality for selling stocks from a user's portfolio. It validates input, ensures the stock exists in the user's portfolio, updates the portfolio balance, records the transaction, and updates stock prices in the database. This file is part of the stock system. It houses the function used for selling a stock.
 */
 
 import { pool } from "../db.js"; // Database connection pool for interacting with the portfolios table
 import axios from 'axios'; // HTTP client for making external API requests
+
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
 
 /**
  * Function: sellStock
@@ -42,7 +45,7 @@ const sellStock = async (req, res) => {
         }
 
         // Check if the stock exists in the user's portfolio
-        const portRes = await axios.post(`http://localhost:5000/api/getPortfolioStocks`, { user_id });
+        const portRes = await axios.post(`${API_URL}/getPortfolioStocks`, { user_id });
         const in_portfolio = portRes.data.some(stock => stock.symbol === symbol);
 
         if (!in_portfolio) {
@@ -50,14 +53,14 @@ const sellStock = async (req, res) => {
         }
 
         // Update the portfolio balance by increasing it with the sale amount
-        const changeBalRes = await axios.put(`http://localhost:5000/api/portfolios/${portfolio_id}`, { ammount: increase });
+        const changeBalRes = await axios.put(`${API_URL}/portfolios/${portfolio_id}`, { ammount: increase });
 
         if (changeBalRes.status === 400) {
             return res.status(400).json({ error: "Invalid portfolio ID or amount" });
         }
 
         // Record the sale transaction
-        const tradeRes = await axios.post(`http://localhost:5000/api/trades`, {
+        const tradeRes = await axios.post(`${API_URL}/trades`, {
             portfolio_id,
             symbol,
             trade_type: "SELL",
@@ -66,11 +69,11 @@ const sellStock = async (req, res) => {
         });
 
         // Ensure the stock exists in the stocks table and update its current price
-        const stockRes = await axios.get(`http://localhost:5000/api/stock?q=${symbol}`);
+        const stockRes = await axios.get(`${API_URL}/stock?q=${symbol}`);
         if (!stockRes.data.symbol) {
             return res.status(400).json({ error: "Stock not in stocks table" });
         } else {
-            await axios.put(`http://localhost:5000/api/stock/${stockRes.data.stock_id}`, { curr_price });
+            await axios.put(`${API_URL}/stock/${stockRes.data.stock_id}`, { curr_price });
         }
 
         // Return success response
@@ -86,4 +89,3 @@ const sellStock = async (req, res) => {
 };
 
 export { sellStock };
-

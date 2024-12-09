@@ -13,6 +13,9 @@ import { calcWorth } from '../controllers/calcWorthController.js'; // Function u
 import { pool } from '../db.js'; // Mocked database connection
 import axios from 'axios'; // Mocked HTTP client for API calls
 
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
+
 // Mock database and axios
 jest.mock('../db.js', () => ({
   pool: {
@@ -57,7 +60,7 @@ describe('calcWorth Controller', () => {
 
     await calcWorth(req, res);
 
-    expect(axios.get).toHaveBeenCalledWith('http://localhost:5000/api/stocks?q=AAPL');
+    expect(axios.get).toHaveBeenCalledWith(`${API_URL}/stocks?q=AAPL`);
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.json).toHaveBeenCalledWith({ error: "Stock not found on Alpha Vantage Platform" });
   });
@@ -95,4 +98,3 @@ describe('calcWorth Controller', () => {
     expect(res.json).toHaveBeenCalledWith({ err: "Internal Server Error" });
   });
 });
-

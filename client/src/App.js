@@ -19,6 +19,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Bootstrap CSS for additional s
 import NavBar from './components/NavBar'; // Navigation bar component
 import StockCard from './components/StockCard'; // Component for displaying stock details
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback to localhost
+
 function App() {
   const [stocks, setStocks] = useState(null); // State for storing stock data
   const [searchQuery, setSearchQuery] = useState("GOOG"); // Default search query
@@ -41,7 +43,7 @@ function App() {
     const fetchStocks = async () => {
       setLoading(true); // Start loading indicator
       try {
-        const response = await axios.get(`http://localhost:5000/api/stocks?q=${searchQuery}`);
+        const response = await axios.get(`${API_URL}/stocks?q=${searchQuery}`); // Updated API URL
         if (response.data && Object.keys(response.data).length > 0) {
           setStocks(response.data); // Set stocks state with valid data
         } else {
@@ -101,4 +103,3 @@ function App() {
 }
 
 export default App; // Export the main component
-

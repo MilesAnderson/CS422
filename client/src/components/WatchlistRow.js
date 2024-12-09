@@ -14,6 +14,8 @@ import axios from 'axios'; // HTTP client for making API requests
 
 import styles from "../css/WatchList.module.css"; // Component-specific styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 /**
  * Component: WatchlistRow
  * Displays a single stock's information in the watchlist and allows the user to remove it.
@@ -33,7 +35,7 @@ const WatchlistRow = ({ stock, onRemove }) => {
   useEffect(() => {
     const fetchCurrentPrice = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
+        const response = await axios.get(`${API_URL}/stocks?q=${symbol}`); // Updated API URL
         if (response.data && response.data.data.price) {
           setCurrentPrice(parseFloat(response.data.data.price).toFixed(2)); // Update price with formatted value
         } else {
@@ -67,7 +69,7 @@ const WatchlistRow = ({ stock, onRemove }) => {
       const userId = storageUser.user_id;
 
       // Send request to remove stock from watchlist
-      const response = await axios.post('http://localhost:5000/api/watchlist/removeWatchlist', {
+      const response = await axios.post(`${API_URL}/watchlist/removeWatchlist`, { // Updated API URL
         user_id: userId,
         stock_symbol: symbol,
       });
@@ -102,4 +104,3 @@ const WatchlistRow = ({ stock, onRemove }) => {
 };
 
 export default WatchlistRow; // Export the component for use in the application
-

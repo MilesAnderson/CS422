@@ -18,6 +18,8 @@ import NavBar from '../components/NavBar'; // Navigation bar component
 
 import styles from "../css/StockCard.module.css"; // Component-specific CSS styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 /**
  * Component: StockDetails
  * Fetches and displays details about a specific stock based on the URL parameter.
@@ -35,7 +37,7 @@ function StockDetails() {
     const fetchStocks = async () => {
       setLoading(true); // Start the loading indicator
       try {
-        const response = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
+        const response = await axios.get(`${API_URL}/stocks?q=${symbol}`); // Updated API URL
         if (response.data && Object.keys(response.data).length > 0) {
           setStocks(response.data); // Set stocks state with valid data
         } else {
@@ -70,4 +72,3 @@ function StockDetails() {
 }
 
 export default StockDetails; // Export the component for use in the application
-

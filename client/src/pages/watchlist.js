@@ -17,6 +17,8 @@ import axios from 'axios'; // HTTP client for API requests
 
 import styles from "../css/WatchList.module.css"; // Component-specific styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 const Watchlist = () => {
   const [watchlist, setWatchlist] = useState([]); // State for storing the watchlist with stock prices
   const [loading, setLoading] = useState(true); // State for managing the loading indicator
@@ -33,7 +35,7 @@ const Watchlist = () => {
    */
   const fetchWatchlist = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/watchlist/${user.user_id}/watchlist`);
+      const response = await fetch(`${API_URL}/watchlist/${user.user_id}/watchlist`); // Updated API URL
       if (response.ok) {
         const data = await response.json();
 
@@ -43,7 +45,7 @@ const Watchlist = () => {
         // Fetch current prices for each stock symbol
         const pricePromises = symbols.map(async (symbol) => {
           try {
-            const priceResponse = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
+            const priceResponse = await axios.get(`${API_URL}/stocks?q=${symbol}`); // Updated API URL
             return {
               symbol,
               companyName: priceResponse.data?.data?.companyName,
@@ -144,4 +146,3 @@ const Watchlist = () => {
 };
 
 export default Watchlist; // Export the component for use in the application
-

@@ -13,6 +13,8 @@ import React, { useState, useEffect } from 'react'; // React hooks for state and
 import axios from 'axios'; // HTTP client for API requests
 import styles from '../css/StockRow.module.css'; // Component-specific styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 /**
  * Component: StockRow
  * Renders a row with stock details and provides functionality to sell stocks.
@@ -37,7 +39,7 @@ const StockRow = ({ stock }) => {
   useEffect(() => {
     const fetchCurrentPrice = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
+        const response = await axios.get(`${API_URL}/stocks?q=${symbol}`); // Updated API URL
         if (response.data && response.data.data.price) {
           setCurrentPrice(parseFloat(response.data.data.price)); // Update current price
           setCompanyName(response.data.data.companyName); // Update company name
@@ -73,7 +75,7 @@ const StockRow = ({ stock }) => {
         return;
       }
 
-      const response = await axios.post('http://localhost:5000/api/sellStock', {
+      const response = await axios.post(`${API_URL}/sellStock`, { // Updated API URL
         user_id: userId,
         symbol: symbol,
         curr_price: currentPrice,
@@ -154,4 +156,3 @@ const StockRow = ({ stock }) => {
 };
 
 export default StockRow; // Export the component
-

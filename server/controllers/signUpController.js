@@ -7,12 +7,15 @@ Jake Kolster
 Date Created: 23 Nov 2024
 
 Description:
-This file, `signUpController.js`, provides functionality for user sign-up. It validates user credentials, ensures no duplicate email exists, creates a user record, and initializes a portfolio for the user. This process involves interactions with a relational database and external API endpoints. This file is apart of the user system. It helps to initalize a portfolio for each new user.
+This file, `signUpController.js`, provides functionality for user sign-up. It validates user credentials, ensures no duplicate email exists, creates a user record, and initializes a portfolio for the user. This process involves interactions with a relational database and external API endpoints. This file is part of the user system. It helps to initialize a portfolio for each new user.
 */
 
 import axios from 'axios'; // HTTP client for making requests to external APIs
 import { pool } from '../db.js'; // Database connection pool for querying and updating the users table
 import bcrypt from 'bcrypt'; // Library for password hashing and security
+
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
 
 /**
  * Function: signUp
@@ -39,7 +42,7 @@ const signUp = async (req, res) => {
         }
 
         // Create a new user by sending data to the user creation API
-        await axios.post(`http://localhost:5000/api/users`, {
+        await axios.post(`${API_URL}/users`, {
             username: username,
             email: email,
             password: password,
@@ -50,7 +53,7 @@ const signUp = async (req, res) => {
         const user_id = userRes.rows[0].user_id;
 
         // Initialize a portfolio for the user by sending data to the portfolio creation API
-        await axios.post(`http://localhost:5000/api/portfolios`, { user_id: user_id });
+        await axios.post(`${API_URL}/portfolios`, { user_id: user_id });
 
         // Send success response with user details
         res.status(200).json({
@@ -65,4 +68,3 @@ const signUp = async (req, res) => {
 };
 
 export { signUp };
-

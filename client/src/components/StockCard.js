@@ -14,6 +14,8 @@ import React, { useState, useRef } from 'react'; // Core React functionalities
 import axios from 'axios'; // HTTP client for making API requests
 import styles from '../css/StockCard.module.css'; // Component-specific styles
 
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api'; // Use environment variable or fallback
+
 /**
  * Component: StockCard
  * Displays stock details and provides options to buy stock or add it to the watchlist.
@@ -54,7 +56,7 @@ const StockCard = ({ stocks }) => {
    */
   const handleAddWatchlist = async () => {
     try {
-      await axios.post('http://localhost:5000/api/watchlist/addWatchlist', {
+      await axios.post(`${API_URL}/watchlist/addWatchlist`, {
         watchlist_name: user.user_id,
         user_id: user.user_id,
         stock_ticker: symbol,
@@ -76,7 +78,7 @@ const StockCard = ({ stocks }) => {
       const storageUser = JSON.parse(localStorage.getItem('user')); // Retrieve the current user from local storage
       const storageId = storageUser["user_id"];
 
-      const response = await axios.post('http://localhost:5000/api/buyStock', {
+      const response = await axios.post(`${API_URL}/buyStock`, {
         user_id: storageId,
         symbol: symbol,
         curr_price: price,
@@ -171,4 +173,3 @@ const StockCard = ({ stocks }) => {
 };
 
 export default StockCard; // Export the component for use in the application
-

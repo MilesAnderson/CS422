@@ -7,11 +7,14 @@ Jake Kolster
 Date Created: 20 Nov 2024
 
 Description:
-This file, `calcWorthController.js`, provides functionality to calculate a user's net worth. It combines the user's liquid balance with the total value of their portfolio stocks, fetching real-time stock prices from an external API. This file is apart of the portfolio system. It houses a function that calculates that calculates the worth of a users portfolio so it can be displayed.
+This file, `calcWorthController.js`, provides functionality to calculate a user's net worth. It combines the user's liquid balance with the total value of their portfolio stocks, fetching real-time stock prices from an external API. This file is part of the portfolio system. It houses a function that calculates the worth of a user's portfolio so it can be displayed.
 */
 
 import axios from 'axios'; // HTTP client for making external API requests
 import { pool } from "../db.js"; // Database connection pool for querying and updating the portfolios table
+
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
 
 /**
  * Function: calcWorth
@@ -39,7 +42,7 @@ const calcWorth = async (req, res) => {
     const liquidMoney = parseFloat(portQuery.rows[0].balance || 0);
 
     // Fetch the user's portfolio stocks
-    const portRes = await axios.post("http://localhost:5000/api/getPortfolioStocks", { user_id });
+    const portRes = await axios.post(`${API_URL}/getPortfolioStocks`, { user_id });
     const portfolio = portRes.data || [];
 
     // Calculate asset money (total stock value)
@@ -50,7 +53,7 @@ const calcWorth = async (req, res) => {
 
       try {
         // Fetch the current price of the stock
-        const result = await axios.get(`http://localhost:5000/api/stocks?q=${symbol}`);
+        const result = await axios.get(`${API_URL}/stocks?q=${symbol}`);
         if (result.data && result.data.data && result.data.data.price) {
           const currentPrice = parseFloat(result.data.data.price);
           assetMoney += currentPrice * quantity;
@@ -81,4 +84,3 @@ const calcWorth = async (req, res) => {
 };
 
 export { calcWorth };
-

@@ -14,6 +14,9 @@ import { signUp } from '../controllers/signUpController'; // Function under test
 import { pool } from '../db.js'; // Mocked database pool
 import axios from 'axios'; // Mocked HTTP client for API calls
 
+// Define the backend URL using environment variables or a default value
+const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5001/api';
+
 // Mock database and axios modules
 jest.mock('../db.js', () => ({
     pool: {
@@ -77,12 +80,12 @@ describe('signUp', () => {
         await signUp(req, res);
 
         expect(pool.query).toHaveBeenCalledWith('SELECT * FROM users WHERE email=$1', [req.body.email]);
-        expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/api/users', {
+        expect(axios.post).toHaveBeenCalledWith(`${API_URL}/users`, {
             username: req.body.username,
             email: req.body.email,
             password: req.body.password,
         });
-        expect(axios.post).toHaveBeenCalledWith('http://localhost:5000/api/portfolios', { user_id: 123 });
+        expect(axios.post).toHaveBeenCalledWith(`${API_URL}/portfolios`, { user_id: 123 });
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.json).toHaveBeenCalledWith({
             message: 'Successfully signed in',
@@ -103,4 +106,3 @@ describe('signUp', () => {
         expect(res.json).toHaveBeenCalledWith({ err: 'Internal Server Error' });
     });
 });
-
